@@ -1,7 +1,12 @@
 import React from "react";
 import CountryFound from "./CountryFound";
 
-const Country = ({ countries, filterName }) => {
+const Country = ({
+  countries,
+  filterName,
+  handleClickShow,
+  handleClickReset,
+}) => {
   var filteredCountries = countries;
 
   // Filter out the country names
@@ -17,11 +22,22 @@ const Country = ({ countries, filterName }) => {
   }
   // Exactly one country found
   else if (filteredCountries.length === 1) {
-    return <CountryFound countries={filteredCountries} />;
+    return (
+      <CountryFound
+        countries={filteredCountries}
+        handleClickReset={handleClickReset}
+      />
+    );
   }
   // <= 10 countries found
   return filteredCountries.map((country) => (
-    <p key={country.name}> {country.name} </p>
+    <p key={country.name}>
+      {" "}
+      {country.name}{" "}
+      <button onClick={handleClickShow} countryAttribute={country.name}>
+        show
+      </button>
+    </p>
   ));
 };
 

@@ -18,11 +18,27 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilterName(event.target.value);
   };
+
+  // Get the country name for filtering from button clicked
+  const handleClickShow = (event) => {
+    const countryShow = event.target.attributes.countryAttribute;
+    setFilterName(countryShow.value);
+  };
+  // Reset filter
+  const handleClickReset = (event) => {
+    setFilterName("");
+  };
+
   return (
     <div>
       <Filter filterName={filterName} handleFilterChange={handleFilterChange} />
       <div>
-        <Country countries={countries} filterName={filterName} />
+        <Country
+          countries={countries}
+          filterName={filterName}
+          handleClickShow={handleClickShow}
+          handleClickReset={handleClickReset}
+        />
       </div>
     </div>
   );

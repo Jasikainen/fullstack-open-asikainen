@@ -1,6 +1,6 @@
 import React from "react";
 
-const CountryFound = ({ countries }) => {
+const CountryFound = ({ countries, handleClickReset }) => {
   const foundCountry = countries[0];
 
   return (
@@ -15,17 +15,19 @@ const CountryFound = ({ countries }) => {
           <li key={language.iso639_1}>{language.name}</li>
         ))}
       </ul>
-
-      <img
-        style={{
-          height: 100,
-          borderRadius: 15,
-          border: "solid",
-          borderWidth: 1,
-        }}
-        src={foundCountry.flag}
-        alt="asd"
-      />
+      <div>
+        <img
+          style={{
+            height: 100,
+            borderRadius: 15,
+            border: "solid",
+            borderWidth: 1,
+          }}
+          src={foundCountry.flag}
+          alt="asd"
+        />
+      </div>
+      <button onClick={handleClickReset}>Back to search</button>
     </div>
   );
 };
