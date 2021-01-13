@@ -8,7 +8,6 @@ const Country = ({
   handleClickReset,
 }) => {
   var filteredCountries = countries;
-
   // Filter out the country names
   if (filterName) {
     filteredCountries = filteredCountries.filter(
@@ -34,7 +33,7 @@ const Country = ({
     <p key={country.name}>
       {" "}
       {country.name}{" "}
-      <button onClick={handleClickShow} countryAttribute={country.name}>
+      <button onClick={handleClickShow} countryattribute={country.name}>
         show
       </button>
     </p>

@@ -1,12 +1,14 @@
 import React from "react";
+import Weather from "./Weather";
 
 const CountryFound = ({ countries, handleClickReset }) => {
   const foundCountry = countries[0];
+  const capitalCity = foundCountry.capital;
 
   return (
     <div>
       <h2>{foundCountry.name}</h2>
-      <p>Capital city: {foundCountry.capital}</p>
+      <p>Capital city: {capitalCity}</p>
       <p>Population: {foundCountry.population}</p>
 
       <h3>Languages spoken:</h3>
@@ -24,9 +26,11 @@ const CountryFound = ({ countries, handleClickReset }) => {
             borderWidth: 1,
           }}
           src={foundCountry.flag}
-          alt="asd"
+          alt={`${foundCountry.flag}s flag`}
         />
       </div>
+
+      <Weather capitalCity={capitalCity} />
       <button onClick={handleClickReset}>Back to search</button>
     </div>
   );

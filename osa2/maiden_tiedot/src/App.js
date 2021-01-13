@@ -6,11 +6,9 @@ import Country from "./components/Country";
 const App = () => {
   const [countries, setCountries] = useState([]);
   const [filterName, setFilterName] = useState("");
-  // 250 countries
+
   useEffect(() => {
-    console.log("effect");
     axios.get("https://restcountries.eu/rest/v2/all").then((response) => {
-      console.log("promise fulfilled");
       setCountries(response.data);
     });
   }, []);
@@ -21,7 +19,7 @@ const App = () => {
 
   // Get the country name for filtering from button clicked
   const handleClickShow = (event) => {
-    const countryShow = event.target.attributes.countryAttribute;
+    const countryShow = event.target.attributes.countryattribute;
     setFilterName(countryShow.value);
   };
   // Reset filter
