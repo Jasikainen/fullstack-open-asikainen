@@ -1,6 +1,6 @@
 import React from "react";
 
-const Person = ({ persons, filterName }) => {
+const Person = ({ persons, filterName, deletePerson }) => {
   var filteredPerson = persons;
   // Filter names by finding the given filter from names.
   // It's index must be non-negative so it is included in word.
@@ -16,6 +16,8 @@ const Person = ({ persons, filterName }) => {
     <p key={person.name}>
       {" "}
       {person.name} {person.number}
+      {" "}
+      <button onClick={() => deletePerson(person.id)}>delete</button>
     </p>
   ));
 };
