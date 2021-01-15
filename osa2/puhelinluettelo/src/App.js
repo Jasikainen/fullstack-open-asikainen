@@ -3,6 +3,7 @@ import Person from "./components/Person";
 import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import Notification from "./components/Notification";
+import Error from "./components/Error";
 import personService from "./services/persons";
 
 /*
@@ -10,7 +11,6 @@ changeSuccessStatus in brief handles the status shown of add, remove or update
 */
 const changeSuccessStatus = (personObject, operation, setSuccessMessage) => {
   if (operation === "add" || operation === "remove") {
-    console.log(operation)
     setSuccessMessage(operation === "add" 
       ? `Added ${personObject.name}` 
       : `Removed ${personObject.name}`)
@@ -26,6 +26,16 @@ const changeSuccessStatus = (personObject, operation, setSuccessMessage) => {
   }
 };
 
+/*
+changeErrorStatus in brief handles the status shown of error situation
+*/
+const changeErrorStatus = (personObject, setErrorMessage) => {
+  setErrorMessage(`Information of ${personObject.name} has already been removed from the server`)
+  setTimeout(() => {
+    setErrorMessage(null)
+  }, 2000)
+}
+
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -33,6 +43,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [filterName, setFilterName] = useState("");
   const [successMessage, setSuccessMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     console.log("effect");
@@ -41,9 +52,6 @@ const App = () => {
     });
   }, []);
 
-
-  // Add new person to persons list if they do not
-  // exist there yet
   const addName = (event) => {
     event.preventDefault();
 
@@ -101,7 +109,8 @@ const App = () => {
             changeSuccessStatus(person, "remove", setSuccessMessage)
           })
           .catch((error) => {
-            alert(`status error: ${error.status}. Person not found.`);
+            changeErrorStatus(person, setErrorMessage)
+            setPersons(persons.filter((item) => item.id !== id));
         })
     }   
   }
@@ -119,7 +128,10 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Error message={errorMessage} />
       <Notification message={successMessage} />
+
       <Filter filterName={filterName} handleFilterChange={handleFilterChange} />
 
       <h3>Add a new</h3>
