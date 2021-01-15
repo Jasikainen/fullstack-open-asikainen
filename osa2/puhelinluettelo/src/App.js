@@ -4,6 +4,7 @@ import PersonForm from "./components/PersonForm";
 import Filter from "./components/Filter";
 import personService from "./services/persons";
 
+
 const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
@@ -17,36 +18,56 @@ const App = () => {
     });
   }, []);
 
+
   // Add new person to persons list if they do not
   // exist there yet
   const addName = (event) => {
     event.preventDefault();
-    var personFound = persons.some((person) => 
+
+    const personFound = persons.some((person) => 
       person.name.toLowerCase() === newName.toLowerCase()
     );
-
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
+ 
     if (personFound) {
-      window.alert(`${newName} is already added to phonebook`);
-    } else {
-      const personObject = {
-        name: newName,
-        number: newNumber,
-      };
-      
+      // Replace the persons phonenumber if they want to.
+      if (window.confirm(`${personFound.name} is already found, replace the old number
+       with a new one?`)){
+        const person = persons.find(n => n.name === newName)
+        const id = person.id;
+        personService
+          .update(id, personObject)
+          .then(returnedPerson => {
+            setPersons(persons.map(person => person.id !== id
+               ? person : returnedPerson))
+          })
+          .catch(error => {
+            alert(
+              `the person '${person.name}' was already deleted from server`
+            )
+            setPersons(persons.filter(n => n.id !== id))     
+          });
+      }
+    } 
+    // Add new person to phonebook
+    else {
       personService
         .create(personObject)
         .then(returnedPerson => {
-        setPersons(persons.concat(returnedPerson));
-      });
+        setPersons(persons.concat(returnedPerson))
+      })
     }
-    setNewName("");
-    setNewNumber("");
+    setNewName("")
+    setNewNumber("")
   };
+
 
   const deletePerson = id => {
     const person = persons.find(n => n.id === id)
-    if (window
-      .confirm(`Do you really want to remove ${person.name} from the phonebook?`)) {
+    if (window.confirm(`Do you really want to remove ${person.name} from the phonebook?`)) {
         personService
           .del(id)
           .then(returnedPerson => {
@@ -54,20 +75,22 @@ const App = () => {
           })
           .catch((error) => {
             alert(`status error: ${error.status}. Person not found.`);
-        });
+        })
     }   
-  };
+  }
+
 
   const handleNameChange = (event) => {
-    setNewName(event.target.value);
+    setNewName(event.target.value)
   };
   const handleNumberChange = (event) => {
-    setNewNumber(event.target.value);
+    setNewNumber(event.target.value)
   };
   const handleFilterChange = (event) => {
-    setFilterName(event.target.value);
+    setFilterName(event.target.value)
   };
 
+  
   return (
     <div>
       <h2>Phonebook</h2>
@@ -89,7 +112,7 @@ const App = () => {
         deletePerson={deletePerson}
       />
     </div>
-  );
-};
+  )
+}
 
-export default App;
+export default App
