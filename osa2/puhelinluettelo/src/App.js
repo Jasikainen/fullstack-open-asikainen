@@ -55,15 +55,15 @@ const App = () => {
   const addName = (event) => {
     event.preventDefault();
 
-    const personFound = persons.some((person) => 
+    const personFound = persons.find((person) => 
       person.name.toLowerCase() === newName.toLowerCase()
     );
     const personObject = {
       name: newName,
       number: newNumber,
     };
- 
-    if (personFound) {
+
+    if (personFound !== undefined) {
       // Replace the persons phonenumber if user accepts confirm.
       if (window.confirm(`${personFound.name} is already found, replace the old number
        with a new one?`)){
