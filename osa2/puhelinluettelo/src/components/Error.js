@@ -2,13 +2,13 @@ const Error = ({ message }) => {
   const errorStyle = { 
     color: "red",
     background: "lightgrey",
-    fontSize: 20,
+    fontSize: 12,
     borderStyle: "solid",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     marginLeft: 5,
-    width: 400
+    width: 300
 }
 
   if (message === null) {

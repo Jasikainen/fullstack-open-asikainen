@@ -2,13 +2,13 @@ const Notification = ({ message }) => {
   const successStyle = { 
       color: "green",
       background: "lightgrey",
-      fontSize: 20,
+      fontSize: 12,
       borderStyle: "solid",
       borderRadius: 5,
       padding: 10,
       marginBottom: 10,
       marginLeft: 5,
-      width: 300
+      width: 250
   }
 
   if (message === null) {

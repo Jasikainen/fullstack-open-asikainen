@@ -29,8 +29,12 @@ const changeSuccessStatus = (personObject, operation, setSuccessMessage) => {
 /*
 changeErrorStatus in brief handles the status shown of error situation
 */
-const changeErrorStatus = (personObject, setErrorMessage) => {
-  setErrorMessage(`Information of ${personObject.name} has already been removed from the server`)
+const changeErrorStatus = (object, setErrorMessage) => {
+  if (object.name !== undefined){
+    setErrorMessage(`Information of ${object.name} has already been removed from the server`)
+  } else {
+    setErrorMessage(`ERROR: ${object.error}`)
+  }
   setTimeout(() => {
     setErrorMessage(null)
   }, 2000)
@@ -79,10 +83,9 @@ const App = () => {
             changeSuccessStatus(personObject, "update", setSuccessMessage)
           })
           .catch(error => {
-            alert(
-              `the person '${person.name}' was already deleted from server`
-            )
-            setPersons(persons.filter(n => n.id !== id))     
+            console.log(error)
+            alert(`the person '${person.name}' was already deleted from server`)
+            setPersons(persons.filter(n => n.id !== id))    
           });
       }
     } 
@@ -90,10 +93,15 @@ const App = () => {
     else {
       personService
         .create(personObject)
-        .then(returnedPerson => {
-          setPersons(persons.concat(returnedPerson))
-          changeSuccessStatus(personObject, "add", setSuccessMessage)
-      })
+        .then(createdPerson => {
+          setPersons(persons.concat(createdPerson))
+          changeSuccessStatus(createdPerson, "add", setSuccessMessage)
+        })
+        .catch(error => {
+          console.log(error, "error on add?")
+          console.log(error.response.data)
+          changeErrorStatus(error.response.data, setErrorMessage)
+        })
     }
     setNewName("")
     setNewNumber("")
@@ -127,6 +135,7 @@ const App = () => {
 
   return (
     <div>
+      
       <h2>Phonebook application</h2>
 
       <Error message={errorMessage} />
