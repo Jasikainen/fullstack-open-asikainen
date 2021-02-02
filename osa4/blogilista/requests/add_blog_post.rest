@@ -1,0 +1,9 @@
+POST http://localhost:3003/api/blogs 
+Content-type: application/json
+
+{
+  "title": "Kapteeni kalsari2",
+  "author": "testaaja toivonen",
+  "url": "http:://kallenkirjat.com",
+  "likes": 555
+}
