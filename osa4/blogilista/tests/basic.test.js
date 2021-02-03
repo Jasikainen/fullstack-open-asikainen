@@ -58,10 +58,16 @@ const listWithOneBlog = [
   }
 ]
 
+
 describe('dummy', () => {
-  test('dummy returns one', () => {
+  test('returns one with empty list', () => {
     const emptyBlogs = []
     const result = listHelper.dummy(emptyBlogs)
+    expect(result).toBe(1)
+  })
+
+  test('dummy returns one with bigger list', () => {
+    const result = listHelper.dummy(blogs)
     expect(result).toBe(1)
   })
 
@@ -84,12 +90,19 @@ describe('total likes', () => {
   })
 })
 
+
 describe('favorite blog', () => {
   test('with test input should be "Canonical string reduction"', () => {
+    const favoriteBlog = {
+      title: 'Canonical string reduction',
+      author: 'Edsger W. Dijkstra',
+      likes: 12
+    }
     const result = listHelper.favoriteBlog(blogs)
-    expect(result).toEqual(blogs[2])
+    expect(result).toEqual(favoriteBlog)
   })
 })
+
 
 describe('most blogs', () => {
   test('(3) should be written by "Robert C. Martin"', () => {
@@ -108,11 +121,23 @@ describe('most blogs', () => {
   })
 
   test('of one blog of author is equal to one', () => {
-    const authorDjiktra = {
+    const authorDijkstra = {
       author: 'Edsger W. Dijkstra',
       blogs: 1
     }
     const result = listHelper.mostBlogs(listWithOneBlog)
-    expect(result).toEqual(authorDjiktra)
+    expect(result).toEqual(authorDijkstra)
+  })
+})
+
+
+describe('most likes', () => {
+  test('of all authors is achieved by Dijkstra', () => {
+    const mostLikedAuthor = {
+      author: 'Edsger W. Dijkstra',
+      likes: 17
+    }
+    const result = listHelper.mostLikes(blogs)
+    expect(result).toEqual(mostLikedAuthor)
   })
 })
