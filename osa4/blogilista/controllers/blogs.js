@@ -13,7 +13,6 @@ blogsRouter.post('/', async (request, response) => {
   if (body.url === undefined || body.title === undefined) {
     return response.status(400).end()
   }
-
   const blog = new Blog({
     title: body.title,
     author: body.author,
@@ -22,10 +21,18 @@ blogsRouter.post('/', async (request, response) => {
       body.likes
       : 0
   })
-
   const savedBlog = await blog.save()
   response.json(savedBlog.toJSON())
-
 })
+
+
+blogsRouter.delete('/:id', async (request, response) => {
+  const databaseResponse = await Blog.findByIdAndRemove(request.params.id)
+  if (databaseResponse){
+    return response.status(204).end()
+  }
+  return response.status(404).end()
+})
+
 
 module.exports = blogsRouter

@@ -57,7 +57,7 @@ const oneBlog =
     likes: 666,
   }
 
-
+// Returns a blogs id that is first saved and after that removed
 const nonExistingId = async () => {
   const blog = new Blog(
     {
@@ -68,21 +68,32 @@ const nonExistingId = async () => {
       likes: 123,
       __v: 0
     })
-
   await blog.save()
   await blog.remove()
 
   return blog._id.toString()
 }
 
+// returns databases blogs in current time state
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
   return blogs.map(blog => blog.toJSON())
+}
+
+// Returns list of blogs with all other properties but
+// id filtered off.
+const blogsWithoutId = (blogs) => {
+  const clonedBlogs = blogs.map(blog => {
+    const clone = (({ id, ...object }) => object)(blog)
+    return clone
+  })
+  return clonedBlogs
 }
 
 module.exports = {
   initialBlogs,
   oneBlog,
   nonExistingId,
-  blogsInDb
+  blogsInDb,
+  blogsWithoutId
 }

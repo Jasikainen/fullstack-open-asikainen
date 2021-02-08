@@ -45,11 +45,8 @@ test('note with proper content is added to database', async () => {
 
   const blogsAtEnd = await helper.blogsInDb()
 
-  // Copy everything else but 'id' from the objects returned
-  const contents = blogsAtEnd.map(blog => {
-    const clone = (({ id, ...object }) => object)(blog)
-    return clone
-  })
+  
+  const contents = helper.blogsWithoutId(blogsAtEnd)
 
   expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
   expect(contents).toContainEqual(newBlog)
@@ -110,8 +107,23 @@ describe('HTTP-post to /api/blogs with false information, 400 BAD REQUEST', () =
   })
 })
 
-  
 
+test('Succesful deletion returns 204', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+  const blogToDelete = blogsAtStart[0]
+  console.log(blogToDelete.id)
+  await api
+    .delete(`/api/blog/${blogToDelete.id}`)
+    .expect(204)
+
+  const blogsAtEnd = await helper.blogsInDb()
+
+  const contents = helper.blogsWithoutId(blogsAtEnd)
+
+  expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
+  expect(contents).not.toContain(blogToDelete)
+
+})
 
 afterAll(() => {
   mongoose.connection.close()
