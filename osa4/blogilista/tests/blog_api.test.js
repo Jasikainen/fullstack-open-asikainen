@@ -55,6 +55,23 @@ test('note with proper content is added to database', async () => {
   expect(contents).toContainEqual(newBlog)
 })
 
+test('blog post with undefined amount of likes should be 0', async () => {
+  const undefinedLikesBlog = helper.oneBlog
+  undefinedLikesBlog.title = 'blog post about undefined likes'
+  undefinedLikesBlog.likes = undefined
+
+  await api
+    .post('/api/blogs')
+    .send(undefinedLikesBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogPostsAtEnd = await helper.blogsInDb()
+  const lastBlog = blogPostsAtEnd[blogPostsAtEnd.length - 1]
+
+  expect(lastBlog.likes).toBe(0)
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
