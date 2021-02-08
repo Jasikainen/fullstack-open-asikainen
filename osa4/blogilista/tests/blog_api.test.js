@@ -45,7 +45,7 @@ test('note with proper content is added to database', async () => {
 
   const blogsAtEnd = await helper.blogsInDb()
 
-  
+
   const contents = helper.blogsWithoutId(blogsAtEnd)
 
   expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
@@ -111,7 +111,7 @@ describe('HTTP-post to /api/blogs with false information, 400 BAD REQUEST', () =
 test('Succesful deletion returns 204', async () => {
   const blogsAtStart = await helper.blogsInDb()
   const blogToDelete = blogsAtStart[0]
-  console.log(blogToDelete.id)
+
   await api
     .delete(`/api/blog/${blogToDelete.id}`)
     .expect(204)
@@ -122,8 +122,35 @@ test('Succesful deletion returns 204', async () => {
 
   expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length - 1)
   expect(contents).not.toContain(blogToDelete)
-
 })
+
+/* BUG Not working currently.
+test('update likes to 123', async () => {
+  const blogsAtStart = await helper.blogsInDb()
+
+  const blogUpdateTemplate = blogsAtStart[0]
+  const blogToUpdateId = blogUpdateTemplate.id
+
+  const blogForUpdate = {
+    title: blogUpdateTemplate.title,
+    author: blogUpdateTemplate.author,
+    url: blogUpdateTemplate.url,
+    likes: 123
+  }
+
+  await api
+    .put(`/api/blog/${blogToUpdateId.toString()}`)
+    .send(blogForUpdate)
+
+  const blogsAtEnd = await helper.blogsInDb()
+  console.log('blogs At end', blogsAtEnd)
+  const contents = blogsAtEnd.map(blog => blog)
+  //console.log(contents)
+  const comparisonBlog = contents.find(blog => blog.id === blogToUpdateId)
+  //console.log(comparisonBlog)
+  expect(comparisonBlog.likes).toBe(blogForUpdate.likes)
+})
+*/
 
 afterAll(() => {
   mongoose.connection.close()
