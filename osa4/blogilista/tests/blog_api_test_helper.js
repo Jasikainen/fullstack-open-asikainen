@@ -49,6 +49,15 @@ const initialBlogs = [
   }
 ]
 
+const oneBlog =
+  {
+    title: 'Testing blog',
+    author: 'Unauthorized blogger',
+    url: 'https://bloggers-are-best.com/',
+    likes: 666,
+  }
+
+
 const nonExistingId = async () => {
   const blog = new Blog(
     {
@@ -73,6 +82,7 @@ const blogsInDb = async () => {
 
 module.exports = {
   initialBlogs,
+  oneBlog,
   nonExistingId,
   blogsInDb
 }

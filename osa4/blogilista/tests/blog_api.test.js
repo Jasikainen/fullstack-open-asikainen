@@ -19,6 +19,7 @@ test('blogs are returned as json', async () => {
   expect(response.type).toBe('application/json')
 })
 
+
 test('all blogs are returned', async () => {
   const response = await api.get('/api/blogs')
   expect(response.body.length).toBe(helper.initialBlogs.length)
@@ -31,6 +32,29 @@ test('blogs identifier is as parameter "id"', async () => {
   const identifiers = response.body.map(n => n.id)
   expect(identifiers).toBeDefined()
 })
+
+
+test('note with proper content is added to database', async () => {
+  const newBlog = helper.oneBlog
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+  const blogPostsAtEnd = await helper.blogsInDb()
+
+  // Copy everything else but 'id' from the objects returned
+  const contents = blogPostsAtEnd.map(blog => {
+    const clone = (({ id, ...object }) => object)(blog)
+    return clone
+  })
+
+  expect(blogPostsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+  expect(contents).toContainEqual(newBlog)
+})
+
 
 afterAll(() => {
   mongoose.connection.close()
