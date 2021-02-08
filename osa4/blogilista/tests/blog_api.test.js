@@ -43,17 +43,18 @@ test('note with proper content is added to database', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  const blogPostsAtEnd = await helper.blogsInDb()
+  const blogsAtEnd = await helper.blogsInDb()
 
   // Copy everything else but 'id' from the objects returned
-  const contents = blogPostsAtEnd.map(blog => {
+  const contents = blogsAtEnd.map(blog => {
     const clone = (({ id, ...object }) => object)(blog)
     return clone
   })
 
-  expect(blogPostsAtEnd.length).toBe(helper.initialBlogs.length + 1)
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1)
   expect(contents).toContainEqual(newBlog)
 })
+
 
 test('blog post with undefined amount of likes should be 0', async () => {
   const undefinedLikesBlog = helper.oneBlog
@@ -66,11 +67,50 @@ test('blog post with undefined amount of likes should be 0', async () => {
     .expect(200)
     .expect('Content-Type', /application\/json/)
 
-  const blogPostsAtEnd = await helper.blogsInDb()
-  const lastBlog = blogPostsAtEnd[blogPostsAtEnd.length - 1]
+  const blogsAtEnd = await helper.blogsInDb()
+  const lastBlog = blogsAtEnd[blogsAtEnd.length - 1]
 
   expect(lastBlog.likes).toBe(0)
 })
+
+describe('HTTP-post to /api/blogs with false information, 400 BAD REQUEST', () => {
+  test('without TITLE', async () => {
+    const newBlog = {
+      url: 'www.testing-dot.com',
+      author: 'Unauthorized blogger',
+      likes: 666,
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+  test('without URL', async () => {
+    const newBlog = {
+      title: 'Testers be testing',
+      author: 'Unauthorized blogger',
+      likes: 666,
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+
+  test('without URL and TITLE', async () => {
+    const newBlog = {
+      author: 'Unauthorized blogger',
+      likes: 666,
+    }
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+  })
+})
+
+  
 
 
 afterAll(() => {
