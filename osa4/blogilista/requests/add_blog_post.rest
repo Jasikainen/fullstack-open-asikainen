@@ -1,11 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyODk1MTIyfQ.htzCm9UL6J3tBHJwlfKTK7uEuQP043WiKaCxAfrK68c
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyODk2NjAzfQ.wuwn9Na3-VIQPqVw0t8NnmXqbzl6ulVnPtnCHlT3x0c
 
 {
-  "title": "Jasims bloggerino",
-  "author": "Jani Asikainen",
-  "url": "https://overreacted.io/things-i-dont-love-about-cpp",
-  "likes": 10000,
-  "userId": "6022b8628da4e644f082f783"
+  "title": "jajajaja",
+  "author": "tesasdasdasdaster",
+  "url": "https://jajajaja.com",
+  "likes": 10000
 }
