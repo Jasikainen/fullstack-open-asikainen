@@ -16,6 +16,7 @@ const userSchema = mongoose.Schema({
   ],
 })
 
+// Delete some of parameters that are returned on JSON response
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()

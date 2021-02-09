@@ -1,9 +1,11 @@
-POST http://localhost:3003/api/blogs/6022b33401e03143cc943cd6
+POST http://localhost:3003/api/blogs/
 Content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyODk1MTIyfQ.htzCm9UL6J3tBHJwlfKTK7uEuQP043WiKaCxAfrK68c
 
 {
-  "title": "Kapteeni kalsari2",
-  "author": "testaaja toivonen",
-  "url": "http:://kallenkirjat.com",
-  "likes": 555
+  "title": "Jasims bloggerino",
+  "author": "Jani Asikainen",
+  "url": "https://overreacted.io/things-i-dont-love-about-cpp",
+  "likes": 10000,
+  "userId": "6022b8628da4e644f082f783"
 }
