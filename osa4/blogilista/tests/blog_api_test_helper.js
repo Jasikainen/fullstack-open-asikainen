@@ -1,4 +1,5 @@
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 const initialBlogs = [
   {
@@ -80,6 +81,12 @@ const blogsInDb = async () => {
   return blogs.map(blog => blog.toJSON())
 }
 
+// returns databases users in current time state
+const usersInDb = async () => {
+  const users = await User.find({})
+  return users.map(user => user.toJSON())
+}
+
 // Returns list of blogs with all other properties but
 // id filtered off.
 const blogsWithoutId = (blogs) => {
@@ -95,5 +102,6 @@ module.exports = {
   oneBlog,
   nonExistingId,
   blogsInDb,
-  blogsWithoutId
+  blogsWithoutId,
+  usersInDb
 }
