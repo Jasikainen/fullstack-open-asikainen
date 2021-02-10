@@ -1,9 +1,19 @@
 const mongoose = require('mongoose')
 
+// Blog has reference to its owner as "User" id
 const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
+  title: {
+    required: true,
+    type: String
+  },
+  author: {
+    required: true,
+    type: String
+  },
+  url: {
+    required: true,
+    type: String
+  },
   likes: Number,
   user: {
     type: mongoose.Schema.Types.ObjectId,
@@ -19,4 +29,5 @@ blogSchema.set('toJSON', {
   }
 })
 
-module.exports = mongoose.model('Blog', blogSchema)
+const Blog = mongoose.model('Blog', blogSchema)
+module.exports = Blog

@@ -1,4 +1,3 @@
-
 const supertest = require('supertest')
 const mongoose = require('mongoose')
 const helper = require('./blog_api_test_helper') // Same helper for back end in this exercise
@@ -6,14 +5,14 @@ const app = require('../app')
 const api = supertest(app)
 const User = require('../models/user')
 
+beforeEach(async () => {
+  await User.deleteMany({})
+  const user = new User({ username: 'Jasim', password: 'sekret' })
+  await user.save()
+
+})
+
 describe('Initialise database with one user "Jasim"', () => {
-
-  beforeEach(async () => {
-    await User.deleteMany({})
-    const user = new User({ username: 'Jasim', password: 'sekret' })
-    await user.save()
-  })
-
   test('Add user "1337Hax0r" to database', async () => {
     const usersAtStart = await helper.usersInDb()
 

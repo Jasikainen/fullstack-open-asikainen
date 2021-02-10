@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyODk2NjAzfQ.wuwn9Na3-VIQPqVw0t8NnmXqbzl6ulVnPtnCHlT3x0c
+Authorization: bearer JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyOTU5NDY4fQ.zn0WoyPQB34g0Uy5Jek8fDt5kH6czDxSyIx1-UAXzCY
 
 {
-  "title": "jajajaja",
-  "author": "tesasdasdasdaster",
-  "url": "https://jajajaja.com",
-  "likes": 10000
+  "title": "jajajaja 2",
+  "author": "asdfg",
+  "url": "https://jajajaja-2.com",
+  "likes": 123
 }

@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
+// User has reference to Blog IDs that they have added
 const userSchema = mongoose.Schema({
   username: {
     type: String,
@@ -30,5 +31,4 @@ userSchema.set('toJSON', {
 userSchema.plugin(uniqueValidator)
 
 const User = mongoose.model('User', userSchema)
-
 module.exports = User

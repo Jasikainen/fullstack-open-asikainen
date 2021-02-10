@@ -50,6 +50,24 @@ const initialBlogs = [
   }
 ]
 
+const initialUsers = [
+  {
+    username: 'username1',
+    name: 'name1',
+    password: 'password1'
+  },
+  {
+    username: 'username2',
+    name: 'name2',
+    password: 'password2'
+  },
+  {
+    username: 'username3',
+    name: 'name3',
+    password: 'password3'
+  }
+]
+
 const oneBlog =
   {
     title: 'Testing blog',
@@ -88,13 +106,19 @@ const usersInDb = async () => {
 }
 
 // Returns list of blogs with all other properties but
-// id filtered off.
+// id (blogs) and user (id) filtered off.
 const blogsWithoutId = (blogs) => {
   const clonedBlogs = blogs.map(blog => {
-    const clone = (({ id, ...object }) => object)(blog)
+    const clone = (({ id, user, ...object }) => object)(blog)
     return clone
   })
   return clonedBlogs
+}
+
+// returns list of blogs with given userId as their "user"
+const blogsWithMasterUser = (userId) => {
+  const blogsWithUser = initialBlogs.map(blog => ({ ...blog, user: userId }))
+  return blogsWithUser
 }
 
 module.exports = {
@@ -103,5 +127,7 @@ module.exports = {
   nonExistingId,
   blogsInDb,
   blogsWithoutId,
-  usersInDb
+  usersInDb,
+  initialUsers,
+  blogsWithMasterUser
 }

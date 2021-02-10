@@ -18,11 +18,11 @@ loginRouter.post('/', async (request, response) => {
     })
   }
 
+  // generate token for found user
   const userForToken = {
     username: userFound.username,
     id: userFound._id,
   }
-
   const token = jwt.sign(userForToken, process.env.SECRET)
 
   response
