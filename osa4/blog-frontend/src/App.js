@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react'
+
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
+import AddBlogForm from './components/AddBlogForm'
+import Notification from './components/Notification'
+
 import blogService from './services/blogs'
 import loginService from './services/login'
 
@@ -10,11 +14,12 @@ const App = () => {
   const [username, setUsername] = useState('') 
   const [password, setPassword] = useState('') 
   const [blogUser, setBlogUser] = useState(null) 
-
+  const [errorMessage, setErrorMessage] = useState(null)
+  
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   // Used to check from local cache if user logged in session
@@ -22,53 +27,33 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('LoggedInBlogUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log(user.token)
+      console.log(user)
       setBlogUser(user)
       blogService.setUserToken(user.token)
     }
   }, [])
-
-  const loginHandler = async (event) => {
-    event.preventDefault()
-    console.log(username, password)
-    try {
-      // returns token and user info of logged-in user
-      const userReturned = await loginService.login({
-        username, password
-      })
-      // Set logged in user to browsers local cache
-      window.localStorage.setItem(
-        'LoggedInBlogUser', JSON.stringify(userReturned)
-      ) 
-
-      blogService.setUserToken(userReturned.token)
-      setBlogUser(userReturned)
-      setUsername(''); setPassword('');
-      
-    } catch (exception) {
-      console.log('Wrong login credentials.', exception)
-    }
+  
+  const notificationMessageHandler = (message, type='success') => {
+    setErrorMessage({ message, type })
+    setTimeout(() => {
+      setErrorMessage(null)
+    }, 5000)
   }
-
-  const handleClickLogout = async (event) => {
-    event.preventDefault()
-    console.log('Logging out of the blog application')
-    try {
-      window.localStorage.removeItem('LoggedInBlogUser')
-    } catch(exception) {
-      console.log('Logging out failed', exception) 
-    }
-  }
+    
 
   return (
     <div>
+      <Notification message={errorMessage} />
       {blogUser === null ?
         <LoginForm
-        loginHandler={loginHandler}
         setUsername={setUsername}
         setPassword={setPassword}
         username={username}
         password={password}
+        loginService={loginService}
+        blogService={blogService}
+        setBlogUser={setBlogUser}
+        notificationMessageHandler={notificationMessageHandler}
         /> :
         <div>
           <h2 style={{
@@ -84,8 +69,16 @@ const App = () => {
             {blogUser.name !== null ?
             blogUser.name : 
             blogUser.username} logged in {" "}
-            <LogoutButton handleClickLogout={handleClickLogout} />
+            <LogoutButton />
           </p>
+
+          <AddBlogForm 
+          blogs={blogs}
+          setBlogs={setBlogs}
+          blogUser={blogUser}
+          blogService={blogService}
+          notificationMessageHandler={notificationMessageHandler}
+          />
 
           {blogs.map(blog => 
             blog.user && 
@@ -94,10 +87,7 @@ const App = () => {
             <Blog key={blog.id} blog={blog} blogUser={blogUser} />
           )}
         </div>
-        
       }
-      
-
     </div>
   )
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const Blog = ({ handleClickLogout }) => {
+const LogoutButton = ({ props }) => {
   const logoutStyle = {
     shadowColor: 'black',
     shadowOpacity: 0.8,
@@ -12,6 +12,16 @@ const Blog = ({ handleClickLogout }) => {
     borderWidth:2,
     borderRadius:0, 
   }
+  
+  const handleClickLogout = async (event) => {
+    event.preventDefault()
+    console.log('Logging out of the blog application')
+    try {
+      window.localStorage.removeItem('LoggedInBlogUser')
+    } catch(exception) {
+      console.log('Logging out failed', exception) 
+    }
+  }
 
   return (
       <button style={logoutStyle} onClick={handleClickLogout} variant="primary" size="lg" >
@@ -20,4 +30,4 @@ const Blog = ({ handleClickLogout }) => {
   )
 
 }
-export default Blog
+export default LogoutButton

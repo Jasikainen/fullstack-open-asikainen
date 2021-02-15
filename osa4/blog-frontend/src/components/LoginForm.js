@@ -1,12 +1,13 @@
 import React from 'react'
-const loginForm = ({
-  loginHandler,
+
+const loginForm = ({ 
   setUsername,
   setPassword,
-  username,
-  password
+  username, password,
+  loginService, blogService,
+  setBlogUser,
+  notificationMessageHandler
 }) => {
-
   const loginFormStyle = { 
     color: "green",
     background: "lightgrey",
@@ -17,7 +18,29 @@ const loginForm = ({
     padding: 5,
     marginBottom: 5,
     width: 200,
-}
+  }
+
+  const loginHandler = async (event) => {
+    event.preventDefault()
+    try {
+      // returns token and user info of logged-in user
+      const userReturned = await loginService.login({
+        username, password
+      })
+      // Set logged in user to browsers local cache
+      window.localStorage.setItem(
+        'LoggedInBlogUser', JSON.stringify(userReturned)
+      ) 
+
+      blogService.setUserToken(userReturned.token)
+      setBlogUser(userReturned)
+      setUsername('')
+      setPassword('')
+      
+    } catch (exception) {
+      notificationMessageHandler('Wrong username or password', 'error')
+    }
+  }
 
   return (
     <div style={{paddingLeft: 10}}>
@@ -48,4 +71,5 @@ const loginForm = ({
   </div>  
   )
 }
+
 export default loginForm
