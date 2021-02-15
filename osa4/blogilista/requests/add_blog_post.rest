@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-type: application/json
-Authorization: bearer JhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEyOTU5NDY4fQ.zn0WoyPQB34g0Uy5Jek8fDt5kH6czDxSyIx1-UAXzCY
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc2ltIiwiaWQiOiI2MDJhNTcwYWEwZWE1ZDAyNmNjYmMxNTkiLCJpYXQiOjE2MTMzOTA4MzR9.KssIWRSVd5vSjkWY5j7WVv-pmkzlikIcXQFXU6P6HKk
 
 {
-  "title": "jajajaja 2",
-  "author": "asdfg",
-  "url": "https://jajajaja-2.com",
+  "title": "React is poggers",
+  "author": "JASIM AUTHOR",
+  "url": "https://jasim-bloggers.com",
   "likes": 123
 }
