@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Blog = ({ blog, blogUser }) => {
+const Blog = ({ blog, addLike }) => {
   const titleStyle = {
     fontWeight: "350",
     fontSize: 15,
@@ -28,16 +28,28 @@ const Blog = ({ blog, blogUser }) => {
     setViewInfo(!viewInfo)
   }
 
-  // Set like button red for a while after liking
+  // Set like button green for a while after is added without exceptions thrown
   const [color, setColor] = useState(false)
   const showColor = { 
-    color: color ? 'red' : ''
+    color: color ? 'green' : '',
+    border: color ? 'solid' : null,
   }
-  const toggleColor = () => {
-    setColor(true)
-    setTimeout(() => {
-      setColor(false)
-    }, 500)
+  const increaseLikes = () => {
+    try {
+      const blogId = blog.id
+      const blogObject = {
+        user: blog.user.id,
+        likes: blog.likes + 1,
+        title: blog.title,
+        author: blog.author,
+        url: blog.url,
+      }
+      addLike(blogObject, blogId)
+      setColor(true)
+      setTimeout(() => {setColor(false)}, 100)
+    } catch (exception) {
+      console.log("exception was in increaseLikes", exception)
+    }
   }
 
   // Blogs have button to display/hide information about them
@@ -53,7 +65,7 @@ const Blog = ({ blog, blogUser }) => {
           <div>Title: {blog.title}</div>
           <div>Url: {blog.url}</div>
           <div>
-            likes: {blog.likes} <button style={showColor} onClick={toggleColor}>Like</button>
+            likes: {blog.likes} <button style={showColor} onClick={increaseLikes}>Like</button>
           </div>
           <div>Author: {blog.author}</div>
           <div>Id: {blog.id}</div>
