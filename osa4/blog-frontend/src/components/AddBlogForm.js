@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-const AddBlogForm = ({ blogs, setBlogs, blogUser, blogService, notificationMessageHandler }) => {
+const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
   const inputStyle = {
     fontWeight: "500",
     fontSize: 15,
@@ -12,18 +12,16 @@ const AddBlogForm = ({ blogs, setBlogs, blogUser, blogService, notificationMessa
   const formMainStyle = {
     border: "solid",
     borderColor: 'rgba(50, 190, 150, .3)',
-    padding: 5,
     marginBottom: 15,
     width: 300,
     backgroundColor: 'rgba(240, 180, 150, .5)'
   }
 
-
   const [blogTitle, setBlogTitle] = useState('')
   const [blogAuthor, setBlogAuthor] = useState('')
   const [blogUrl, setBlogUrl] = useState('')
 
-  const addBlogHandler = async (event) => {
+  const createBlogHandler = async (event) => {
     event.preventDefault()
 
     try {
@@ -32,20 +30,20 @@ const AddBlogForm = ({ blogs, setBlogs, blogUser, blogService, notificationMessa
         author: blogAuthor,
         url: blogUrl,
       }
-      const blog = await blogService.create(blogObject)
-      setBlogs(blogs.concat(blog))
-      notificationMessageHandler(`a new blog '${blog.title}' by ${blog.author} added`)
+      addBlog(blogObject)
+      notificationMessageHandler(`a new blog '${blogObject.title}' by ${blogObject.author} added`)
 
       setBlogTitle('')
       setBlogAuthor('')
       setBlogUrl('')
     } catch (exception) {
+      console.log(exception)
       notificationMessageHandler('Could not add blog.', 'error')
     }
   }
 
   return (
-    <form onSubmit={addBlogHandler} style={formMainStyle}>
+    <form onSubmit={createBlogHandler} style={formMainStyle}>
         <div style={inputStyle}>
           Title:
             <input

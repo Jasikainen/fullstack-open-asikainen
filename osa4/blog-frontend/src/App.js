@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react'
-
+import React, { useState, useEffect, useRef } from 'react'
+import './App.css'
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
 import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
+
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -15,7 +18,9 @@ const App = () => {
   const [password, setPassword] = useState('') 
   const [blogUser, setBlogUser] = useState(null) 
   const [errorMessage, setErrorMessage] = useState(null)
-  
+  const blogFormRef = useRef()
+
+  // Get all blogs from database trough back-end
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
@@ -27,7 +32,7 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('LoggedInBlogUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log(user)
+      console.log('LoggedInBlogUser',user)
       setBlogUser(user)
       blogService.setUserToken(user.token)
     }
@@ -40,12 +45,21 @@ const App = () => {
     }, 5000)
   }
     
+  // Handle requests to back-end for adding blog
+  const addBlog = (blogObject) => {
 
-  return (
-    <div>
-      <Notification message={errorMessage} />
-      {blogUser === null ?
-        <LoginForm
+    blogFormRef.current.toggleVisibility()
+    
+    blogService
+      .create(blogObject)
+      .then(returneBlog=> {
+        setBlogs(blogs.concat(returneBlog))
+      })
+  }
+
+  const displayLoginForm = () => (
+    <Togglable buttonLabel='login'>
+      <LoginForm
         setUsername={setUsername}
         setPassword={setPassword}
         username={username}
@@ -54,31 +68,46 @@ const App = () => {
         blogService={blogService}
         setBlogUser={setBlogUser}
         notificationMessageHandler={notificationMessageHandler}
-        /> :
+        />
+    </Togglable>
+  )
+
+  const displayAddBlogForm = () => (
+    <Togglable buttonLabel='Create' ref={blogFormRef}>
+      <h3>Create a new blog post with needed information</h3>
+      <AddBlogForm 
+          addBlog={addBlog}
+          notificationMessageHandler={notificationMessageHandler}
+      />
+    </Togglable>
+  )
+
+  const displayLogout = () => (
+    <div>
+      {blogUser.username} logged in {" "}
+      <LogoutButton />
+    </div>
+  )
+
+  
+  return (
+    <div>
+      <Notification message={errorMessage} />
+
+      {blogUser === null ?
+      <div>
+        <h3>Welcome to use the blog application</h3> 
+        {displayLoginForm()}
+      </div> :
+      
         <div>
-          <h2 style={{
-            fontSize: 25,
-            borderStyle: "solid",
-            borderWidth: 1,
-            backgroundColor: 'rgba(240, 180, 150, 1)'
-          }}>
+          <h2 className='BlogPost'>
             Blog posts
           </h2>
 
-          <p>
-            {blogUser.name !== null ?
-            blogUser.name : 
-            blogUser.username} logged in {" "}
-            <LogoutButton />
-          </p>
+          {blogUser.name !== null && displayLogout()}
 
-          <AddBlogForm 
-          blogs={blogs}
-          setBlogs={setBlogs}
-          blogUser={blogUser}
-          blogService={blogService}
-          notificationMessageHandler={notificationMessageHandler}
-          />
+          {displayAddBlogForm()}
 
           {blogs.map(blog => 
             blog.user && 

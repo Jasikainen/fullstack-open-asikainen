@@ -36,3 +36,11 @@
     transform: rotate(360deg);
   }
 }
+
+.BlogPost {
+  font-size: 25px;
+  font-weight: 500;
+  font-style: italic;
+  border-style: solid;
+  background-color: rgba(240, 180, 150, 1);
+}
