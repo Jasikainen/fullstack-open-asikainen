@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Imphc2ltIiwiaWQiOiI2MDJhNTcwYWEwZWE1ZDAyNmNjYmMxNTkiLCJpYXQiOjE2MTMzOTA4MzR9.KssIWRSVd5vSjkWY5j7WVv-pmkzlikIcXQFXU6P6HKk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEzNTY0MDkzfQ.T9Yo8j_qgIcHwPZGjw-xwQbj-1evp4XCZakbYXRUGFQ
 
 {
-  "title": "React is poggers",
-  "author": "JASIM AUTHOR",
-  "url": "https://jasim-bloggers.com",
-  "likes": 123
+  "title": "TESTER BY TES",
+  "author": "TESTER",
+  "url": "https://TESTER-TESTER.com",
+  "likes": 1111111111
 }

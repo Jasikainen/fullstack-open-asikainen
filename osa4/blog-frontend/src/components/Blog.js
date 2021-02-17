@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 
-const Blog = ({ blog, addLike }) => {
+const Blog = ({ blog, addLike, removeBlog }) => {
   const titleStyle = {
     fontWeight: "350",
     fontSize: 15,
@@ -52,6 +52,15 @@ const Blog = ({ blog, addLike }) => {
     }
   }
 
+  const deleteBlog = () => {
+    try {
+      const blogId = blog.id.toString()
+      removeBlog({title: blog.title, author:blog.author}, blogId)
+    } catch(exception){
+      console.log("exception was in deleteBlog", exception)
+    }
+  }
+
   // Blogs have button to display/hide information about them
   return (
     <div style={titleStyle}>
@@ -69,6 +78,7 @@ const Blog = ({ blog, addLike }) => {
           </div>
           <div>Author: {blog.author}</div>
           <div>Id: {blog.id}</div>
+          <button style={{color:'red'}} onClick={deleteBlog}>Delete blog</button>
       </div>
 
   </div>

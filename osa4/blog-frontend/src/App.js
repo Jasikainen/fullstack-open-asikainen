@@ -63,7 +63,7 @@ const App = () => {
   // PUT: Request back-end to update blogpost
   const addLike = (blogObject, id) => {
     blogService
-      .updateBlog(blogObject, id)
+      .update(blogObject, id)
       .then(returneBlog=> {
         // Update blogs after the request is fulfilled
         blogService
@@ -71,6 +71,27 @@ const App = () => {
         .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
       })
   }
+
+  // DELETE: Request to back-end to delete blogpost
+  const removeBlog = (blogObject, id) => {
+    if (window.confirm(`Remove '${blogObject.title}' by '${blogObject.author}'?`)){
+      blogService
+        .remove(id)
+        .then(returneBlog=> {
+          notificationMessageHandler('Removed succesfully')
+          // Update blogs after the request is fulfilled
+          blogService
+          .getAll()
+          .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
+        })
+        .catch(error => {
+          if (error.status === 401) {
+            notificationMessageHandler('401 error', 'error')
+          }
+        })
+    }
+  }
+
 
   // Render the LoginForm component in App
   const displayLoginForm = () => (
@@ -98,6 +119,17 @@ const App = () => {
       />
     </Togglable>
   )
+  
+  // Render the displayBlogs component in App
+  // Blog posts are only shown to the currently logged in user
+  const displayBlogs = () => (
+      blogs.map(blog => 
+      blog.user && 
+      blogUser.username && 
+      blog.user.username.toString() === blogUser.username.toString() &&
+      <Blog key={blog.id} blog={blog} blogUser={blogUser} addLike={addLike} removeBlog={removeBlog}/>
+      )
+  )
 
   // Render the Logout-<button> component in App
   const displayLogout = () => (
@@ -107,33 +139,26 @@ const App = () => {
     </div>
   )
 
+
   // Rendering the App
   return (
     <div>
       <Notification message={errorMessage} />
 
-      {blogUser === null ?
+      {
+      blogUser === null 
+      ?
       <div>
         <h3>Welcome to use the blog application</h3> 
         {displayLoginForm()}
-      </div> :
-      
-        <div>
-          <h2 className='BlogPost'>
-            Blog posts
-          </h2>
-
-          {blogUser.name !== null && displayLogout()}
-
-          {displayAddBlogForm()}
-
-          {blogs.map(blog => 
-            blog.user && 
-            blogUser.username && 
-            blog.user.username.toString() === blogUser.username.toString() &&
-            <Blog key={blog.id} blog={blog} blogUser={blogUser} addLike={addLike} />
-          )}
-        </div>
+      </div> 
+      :
+      <div>
+        <h2 className='BlogPost'>Blog posts</h2>
+        {blogUser.name !== null && displayLogout()}
+        {displayAddBlogForm()}
+        {displayBlogs()}
+      </div>
       }
     </div>
   )
