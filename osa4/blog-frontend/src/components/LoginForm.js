@@ -1,6 +1,7 @@
 import React from 'react'
 
-const loginForm = ({ 
+
+const loginForm = ({
   setUsername,
   setPassword,
   username, password,
@@ -8,11 +9,11 @@ const loginForm = ({
   setBlogUser,
   notificationMessageHandler
 }) => {
-  const loginFormStyle = { 
-    color: "green",
-    background: "lightgrey",
+  const loginFormStyle = {
+    color: 'green',
+    background: 'lightgrey',
     fontSize: 15,
-    borderStyle: "solid",
+    borderStyle: 'solid',
     borderWidth: 1,
     borderRadius: 2,
     padding: 5,
@@ -30,26 +31,26 @@ const loginForm = ({
       // Set logged in user to browsers local cache
       window.localStorage.setItem(
         'LoggedInBlogUser', JSON.stringify(userReturned)
-      ) 
+      )
 
       blogService.setUserToken(userReturned.token)
       setBlogUser(userReturned)
       setUsername('')
       setPassword('')
-      
+
     } catch (exception) {
       notificationMessageHandler('Wrong username or password', 'error')
     }
   }
 
   return (
-    <div style={{paddingLeft: 10}}>
-      <h1 style={{fontSize: 20}}>Log in to application</h1>
-  
+    <div style={{ paddingLeft: 10 }}>
+      <h1 style={{ fontSize: 20 }}>Log in to application</h1>
+
       <form onSubmit={loginHandler}>
         <div style={loginFormStyle}>
           Username
-            <input
+          <input
             type="text"
             value={username}
             name="Username"
@@ -59,7 +60,7 @@ const loginForm = ({
 
         <div style={loginFormStyle}>
           Password
-            <input
+          <input
             type="password"
             value={password}
             name="Password"
@@ -67,8 +68,8 @@ const loginForm = ({
           />
         </div>
         <button type="submit">login</button>
-      </form> 
-  </div>  
+      </form>
+    </div>
   )
 }
 

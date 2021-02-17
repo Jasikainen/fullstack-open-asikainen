@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, addLike, removeBlog }) => {
+  Blog.propTypes = {
+    blog: PropTypes.number.isRequired,
+    addLike: PropTypes.func.isRequired,
+    removeBlog: PropTypes.func.isRequired,
+  }
+
   const titleStyle = {
-    fontWeight: "350",
+    fontWeight: '350',
     fontSize: 15,
-    border: "solid",
+    border: 'solid',
     borderWidth: 1,
     paddingBottom: 5,
     paddingTop: 10,
@@ -15,22 +21,22 @@ const Blog = ({ blog, addLike, removeBlog }) => {
 
   const [viewInfo, setViewInfo] = useState(false)
   const hideWhenVisible = { display: viewInfo ? 'none' : '' }
-  const showWhenVisible = { 
+  const showWhenVisible = {
     display: viewInfo ? '' : 'none',
-    fontWeight: "500",
-    border: "solid",
+    fontWeight: '500',
+    border: 'solid',
     borderColor: 'rgba(0, 0, 0, .5)',
     backgroundColor: 'rgba(240, 180, 150, .6)',
     width: 300,
     padding: 5
-    }
+  }
   const toggleVisibility = () => {
     setViewInfo(!viewInfo)
   }
 
   // Set like button green for a while after is added without exceptions thrown
   const [color, setColor] = useState(false)
-  const showColor = { 
+  const showColor = {
     color: color ? 'green' : '',
     border: color ? 'solid' : null,
   }
@@ -48,16 +54,16 @@ const Blog = ({ blog, addLike, removeBlog }) => {
       setColor(true)
       setTimeout(() => {setColor(false)}, 100)
     } catch (exception) {
-      console.log("exception was in increaseLikes", exception)
+      console.log('exception was in increaseLikes', exception)
     }
   }
 
   const deleteBlog = () => {
     try {
       const blogId = blog.id.toString()
-      removeBlog({title: blog.title, author:blog.author}, blogId)
+      removeBlog({ title: blog.title, author:blog.author }, blogId)
     } catch(exception){
-      console.log("exception was in deleteBlog", exception)
+      console.log('exception was in deleteBlog', exception)
     }
   }
 
@@ -66,23 +72,23 @@ const Blog = ({ blog, addLike, removeBlog }) => {
     <div style={titleStyle}>
 
       <div style={hideWhenVisible}>
-        {blog.title} {" - "} {blog.author} <button onClick={toggleVisibility}>View information</button>
+        {blog.title} {' - '} {blog.author} <button onClick={toggleVisibility}>View information</button>
       </div>
 
       <div style={showWhenVisible}>
-          <button onClick={toggleVisibility}>Hide information</button>
-          <div>Title: {blog.title}</div>
-          <div>Url: {blog.url}</div>
-          <div>
+        <button onClick={toggleVisibility}>Hide information</button>
+        <div>Title: {blog.title}</div>
+        <div>Url: {blog.url}</div>
+        <div>
             likes: {blog.likes} <button style={showColor} onClick={increaseLikes}>Like</button>
-          </div>
-          <div>Author: {blog.author}</div>
-          <div>Id: {blog.id}</div>
-          <button style={{color:'red'}} onClick={deleteBlog}>Delete blog</button>
+        </div>
+        <div>Author: {blog.author}</div>
+        <div>Id: {blog.id}</div>
+        <button style={{ color:'red' }} onClick={deleteBlog}>Delete blog</button>
       </div>
 
-  </div>
+    </div>
   )
 }
-
+Blog.displayName = 'Blog'
 export default Blog

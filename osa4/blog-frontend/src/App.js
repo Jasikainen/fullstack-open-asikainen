@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
 import './App.css'
 import Blog from './components/Blog'
@@ -14,9 +15,9 @@ import loginService from './services/login'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
-  const [blogUser, setBlogUser] = useState(null) 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [blogUser, setBlogUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const blogFormRef = useRef()
 
@@ -36,12 +37,11 @@ const App = () => {
     const loggedUserJSON = window.localStorage.getItem('LoggedInBlogUser')
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
-      console.log('LoggedInBlogUser',user)
       setBlogUser(user)
       blogService.setUserToken(user.token)
     }
   }, [])
-  
+
   // Set message to Notification component thats passed by
   const notificationMessageHandler = (message, type='success') => {
     setErrorMessage({ message, type })
@@ -49,13 +49,13 @@ const App = () => {
       setErrorMessage(null)
     }, 5000)
   }
-    
+
   // POST: Request back-end to add new blog
   const addBlog = (blogObject) => {
     blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
-      .then(returneBlog=> {
+      .then(returneBlog => {
         setBlogs(blogs.concat(returneBlog))
       })
   }
@@ -64,11 +64,11 @@ const App = () => {
   const addLike = (blogObject, id) => {
     blogService
       .update(blogObject, id)
-      .then(returneBlog=> {
+      .then(returneBlog => {
         // Update blogs after the request is fulfilled
         blogService
-        .getAll()
-        .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
+          .getAll()
+          .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
       })
   }
 
@@ -77,12 +77,12 @@ const App = () => {
     if (window.confirm(`Remove '${blogObject.title}' by '${blogObject.author}'?`)){
       blogService
         .remove(id)
-        .then(returneBlog=> {
+        .then(returnedBlog => {
           notificationMessageHandler('Removed succesfully')
           // Update blogs after the request is fulfilled
           blogService
-          .getAll()
-          .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
+            .getAll()
+            .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
         })
         .catch(error => {
           if (error.status === 401) {
@@ -113,28 +113,28 @@ const App = () => {
   const displayAddBlogForm = () => (
     <Togglable buttonLabel='Create' ref={blogFormRef}>
       <h3>Create a new blog post with needed information</h3>
-      <AddBlogForm 
+      <AddBlogForm
         addBlog={addBlog}
         notificationMessageHandler={notificationMessageHandler}
       />
     </Togglable>
   )
-  
+
   // Render the displayBlogs component in App
   // Blog posts are only shown to the currently logged in user
   const displayBlogs = () => (
-      blogs.map(blog => 
-      blog.user && 
-      blogUser.username && 
+    blogs.map(blog =>
+      blog.user &&
+      blogUser.username &&
       blog.user.username.toString() === blogUser.username.toString() &&
       <Blog key={blog.id} blog={blog} blogUser={blogUser} addLike={addLike} removeBlog={removeBlog}/>
-      )
+    )
   )
 
   // Render the Logout-<button> component in App
   const displayLogout = () => (
     <div>
-      {blogUser.username} logged in {" "}
+      {blogUser.username} logged in {' '}
       <LogoutButton />
     </div>
   )
@@ -146,19 +146,19 @@ const App = () => {
       <Notification message={errorMessage} />
 
       {
-      blogUser === null 
-      ?
-      <div>
-        <h3>Welcome to use the blog application</h3> 
-        {displayLoginForm()}
-      </div> 
-      :
-      <div>
-        <h2 className='BlogPost'>Blog posts</h2>
-        {blogUser.name !== null && displayLogout()}
-        {displayAddBlogForm()}
-        {displayBlogs()}
-      </div>
+        blogUser === null
+          ?
+          <div>
+            <h3>Welcome to use the blog application</h3>
+            {displayLoginForm()}
+          </div>
+          :
+          <div>
+            <h2 className='BlogPost'>Blog posts</h2>
+            {blogUser.name !== null && displayLogout()}
+            {displayAddBlogForm()}
+            {displayBlogs()}
+          </div>
       }
     </div>
   )

@@ -2,15 +2,15 @@ import React, { useState } from 'react'
 
 const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
   const inputStyle = {
-    fontWeight: "500",
+    fontWeight: '500',
     fontSize: 15,
     paddingBottom: 5,
     paddingTop: 2,
     paddingLeft: 2,
-    
+
   }
   const formMainStyle = {
-    border: "solid",
+    border: 'solid',
     borderColor: 'rgba(50, 190, 150, .3)',
     marginBottom: 15,
     width: 300,
@@ -44,39 +44,40 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
 
   return (
     <form onSubmit={createBlogHandler} style={formMainStyle}>
-        <div style={inputStyle}>
+      <div style={inputStyle}>
           Title:
-            <input
-            type="text"
-            value={blogTitle}
-            name="Title"
-            onChange={({ target }) => setBlogTitle(target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          value={blogTitle}
+          name="Title"
+          onChange={({ target }) => setBlogTitle(target.value)}
+        />
+      </div>
 
-        <div style={inputStyle}>
+      <div style={inputStyle}>
           Author:
-            <input
-            type="text"
-            value={blogAuthor}
-            name="Author"
-            onChange={({ target }) => setBlogAuthor(target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          value={blogAuthor}
+          name="Author"
+          onChange={({ target }) => setBlogAuthor(target.value)}
+        />
+      </div>
 
-        <div style={inputStyle}>
+      <div style={inputStyle}>
           url:
-            <input
-            type="text"
-            value={blogUrl}
-            name="url"
-            onChange={({ target }) => setBlogUrl(target.value)}
-          />
-        </div>
+        <input
+          type="text"
+          value={blogUrl}
+          name="url"
+          onChange={({ target }) => setBlogUrl(target.value)}
+        />
+      </div>
 
-        <button type="submit">Create blog</button>
-      </form> 
+      <button type="submit">Create blog</button>
+    </form>
   )
 
 }
+
 export default AddBlogForm
