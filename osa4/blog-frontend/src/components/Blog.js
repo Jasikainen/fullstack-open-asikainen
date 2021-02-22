@@ -2,11 +2,6 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, addLike, removeBlog }) => {
-  Blog.propTypes = {
-    blog: PropTypes.number.isRequired,
-    addLike: PropTypes.func.isRequired,
-    removeBlog: PropTypes.func.isRequired,
-  }
 
   const titleStyle = {
     fontWeight: '350',
@@ -88,7 +83,13 @@ const Blog = ({ blog, addLike, removeBlog }) => {
       </div>
 
     </div>
-  )
+  )}
+
+Blog.propTypes = {
+  blog: PropTypes.number.isRequired,
+  addLike: PropTypes.func.isRequired,
+  removeBlog: PropTypes.func.isRequired,
 }
+
 Blog.displayName = 'Blog'
 export default Blog
