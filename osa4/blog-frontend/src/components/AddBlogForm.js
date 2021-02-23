@@ -25,13 +25,12 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
     event.preventDefault()
 
     try {
-      const blogObject = {
+      addBlog({
         title: blogTitle,
         author: blogAuthor,
         url: blogUrl,
-      }
-      addBlog(blogObject)
-      notificationMessageHandler(`a new blog '${blogObject.title}' by ${blogObject.author} added`)
+      })
+      notificationMessageHandler(`a new blog '${blogTitle}' by ${blogAuthor} added`)
 
       setBlogTitle('')
       setBlogAuthor('')
@@ -47,6 +46,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
       <div style={inputStyle}>
           Title:
         <input
+          id='blogTitle'
           type="text"
           value={blogTitle}
           name="Title"
@@ -57,6 +57,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
       <div style={inputStyle}>
           Author:
         <input
+          id='blogAuthor'
           type="text"
           value={blogAuthor}
           name="Author"
@@ -67,6 +68,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
       <div style={inputStyle}>
           url:
         <input
+          id='blogUrl'
           type="text"
           value={blogUrl}
           name="url"
