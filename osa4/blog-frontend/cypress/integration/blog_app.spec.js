@@ -44,4 +44,63 @@ describe('Blog application', function() {
     })
   })
 
+  describe('When logged in', function() {
+    beforeEach(function() {
+      cy.login({ username: 'jasim', password: 'sekret' })
+    })
+
+    it('A blog can be created', function() {
+      cy.contains('Create').click()
+      cy.createBlog({
+        title: 'title of blog',
+        author: 'author of blog',
+        url: 'www.blog-url.com',
+      })
+      cy.contains('title of blog')
+    })
+
+    it('A blog can be liked after initialization', function() {
+      cy.contains('Create').click()
+      cy.createBlog({
+        title: 'title of blog',
+        author: 'author of blog',
+        url: 'www.blog-url.com',
+      })
+      cy.contains('View').click()
+      cy.contains('Like').click()
+      cy.contains('likes: 1')
+    })
+
+    it('A blog can be deleted by user its created by', function() {
+      cy.contains('Create').click()
+      cy.createBlog({
+        title: 'title of blog',
+        author: 'author of blog',
+        url: 'www.blog-url.com',
+      })
+      // Open the statistics of blog and delete it
+      cy.contains('View').click()
+      cy.get('#delete-btn').click()
+    })
+
+    it.only('Multiple blogs are sorted by likes', function() {
+      cy.contains('Create').click()
+
+      cy.createBlog({ title: 'first blog', author: 'first author', url: 'www.blog-1-url.com', likes:123 })
+      cy.createBlog({ title: 'second blog', author: 'second author', url: 'www.blog-2-url.com', likes:1  })
+      cy.createBlog({ title: 'third blog', author: 'third author', url: 'www.blog-3-url.com', likes:662  })
+
+      cy.contains('first blog - first author').contains('View').click()
+      cy.contains('second blog - second author').contains('View').click()
+      cy.contains('third blog - third author').contains('View').click()
+
+      cy.get('.extendedView:first')
+        .as('mostLikes')
+      cy.get('.extendedView:last')
+        .as('leastLikes')
+
+      cy.get('@mostLikes').contains('likes: 662')
+      cy.get('@leastLikes').contains('likes: 1')
+    })
+  })
 })

@@ -79,7 +79,7 @@ const Blog = ({ blog, addLike, removeBlog }) => {
         </div>
         <div>Author: {blog.author}</div>
         <div>Id: {blog.id}</div>
-        <button style={{ color:'red' }} onClick={deleteBlog}>Delete blog</button>
+        <button id="delete-btn" style={{ color:'red' }} onClick={deleteBlog}>Delete blog</button>
       </div>
 
     </div>
