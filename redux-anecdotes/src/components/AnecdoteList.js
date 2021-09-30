@@ -5,13 +5,16 @@ import { voteAnecdoteOf } from '../reducers/anecdoteReducer'
 
 // List component
 const AnecdoteList = (props) => {
-  const anecdotes = useSelector(state => state)
+  const anecdotes = useSelector(state => {
+    // Sort anecdotes here in descending order
+    const sortedAnecdotes = state.sort((a, b) => b.votes - a.votes)
+    return sortedAnecdotes
+  })
   const dispatch = useDispatch()
 
   const vote = (id) => {
     console.log('vote', id)
     dispatch(voteAnecdoteOf(id))
-
   }
 
   return (
@@ -29,7 +32,6 @@ const AnecdoteList = (props) => {
       )}
   </div>
   )
- 
 }
 
 // Export the component for representing list of anecdotes
