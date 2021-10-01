@@ -1,4 +1,6 @@
-const notificationReducer = (state = '-', action) => {
+
+
+const notificationReducer = (state = null, action) => {
   switch (action.type) 
   {
     case 'SET_NOTIFICATION':
@@ -16,19 +18,17 @@ const notificationReducer = (state = '-', action) => {
   }
 }
 
-// Action creator for voting anecdote
 export const setNotification = content => {
   return {
-    type: 'SET_NOTIFICATION',
-    notification: content
+    type         : 'SET_NOTIFICATION',
+    notification : content
   }
 }
 
-// Action creator for new anecdote
-export const deleteNotification = content => {
+export const deleteNotification = () => {
   return {
-    type: 'DELETE_NOTIFICATION',
-    notification: content
+    type         : 'DELETE_NOTIFICATION',
+    notification : null
   }
 }
 

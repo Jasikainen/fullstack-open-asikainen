@@ -1,24 +1,31 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-
 import { voteAnecdoteOf } from '../reducers/anecdoteReducer'
 import { setNotification, deleteNotification } from '../reducers/notificationReducer'
 
 // List component
 const AnecdoteList = (props) => {
-  const anecdotes = useSelector(state => {
+  // Get multiple reducer states from store
+  const anecdotes = useSelector(({filter, anecdotes}) => {
     // Sort anecdotes here in descending order
-    const sortedAnecdotes = state.anecdotes.sort((a, b) => b.votes - a.votes)
-    return sortedAnecdotes
+    var sortedAnecdotes = anecdotes.sort((a, b) => b.votes - a.votes)
+    
+    if (!filter)
+      return sortedAnecdotes
+    else
+    {
+      // Flag "i" tells that the regex filter is not case sensitive
+      const regex = new RegExp(filter, 'i')
+      const filteredAnecdotes = sortedAnecdotes.filter(a => a.content.match(regex))
+      return filteredAnecdotes
+    }
   })
   const dispatch = useDispatch()
 
   const vote = (id, content) => {
-    console.log('vote', id)
     dispatch(voteAnecdoteOf(id))
-
-    dispatch(setNotification(content))
-    setTimeout(() => { dispatch(deleteNotification('-')) }, 5000)
+    dispatch(setNotification(`You voted '${content}'`))
+    setTimeout(() => { dispatch(deleteNotification()) }, 5000)
   }
 
   return (

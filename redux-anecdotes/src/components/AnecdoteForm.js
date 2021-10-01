@@ -14,7 +14,7 @@ const NewAnecdote = (props) => {
     dispatch(createAnecdote(content))
 
     // dispatch to notificationReducer action creators
-    dispatch(setNotification(content))
+    dispatch(setNotification(`New anecdote: '${content}'`))
     setTimeout(() => { dispatch(deleteNotification('-')) }, 5000)
   }
 

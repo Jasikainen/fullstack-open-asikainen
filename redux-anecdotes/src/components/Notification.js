@@ -7,9 +7,7 @@ const Notification = () => {
   const styles = {
     Empty:
     {
-      border: 'solid',
-      padding: 10,
-      borderWidth: 1
+      display: 'none'
     },
     Content:
     {
@@ -21,7 +19,7 @@ const Notification = () => {
   }
 
   return (
-    <div style={notification  === '-' ? styles.Empty : styles.Content}>
+    <div style={notification  === null ? styles.Empty : styles.Content}>
       {notification}
     </div>
   )
