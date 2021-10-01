@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { voteAnecdoteOf } from '../reducers/anecdoteReducer'
 import { setNotification, deleteNotification } from '../reducers/notificationReducer'
 
+
 // Refactor single anecdote to it's own component outside AnecdoteList
 const Anecdote = ({anecdote}) => {
   const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const Anecdote = ({anecdote}) => {
   }
 
   return (
-    <div>
+    <li>
       <div>
         {anecdote.content}
       </div>
@@ -22,9 +23,10 @@ const Anecdote = ({anecdote}) => {
         has {anecdote.votes}
         <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
       </div>
-    </div>
+    </li>
   )
 }
+
 
 // List component
 const AnecdoteList = (props) => {
@@ -44,10 +46,11 @@ const AnecdoteList = (props) => {
     }
   })
 
+  // Components (child) need to have keys defined
   return ( 
-    anecdotes.map(anecdote =>
-      <Anecdote key={anecdote.id} anecdote={anecdote }/>
-    ) 
+    <ul>
+      {anecdotes.map(anecdote => <Anecdote key={anecdote.id} anecdote={anecdote}/> )}
+   </ul>
   )
 }
 
