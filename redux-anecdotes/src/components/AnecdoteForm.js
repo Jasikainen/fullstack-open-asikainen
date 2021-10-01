@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-
 import { createAnecdote } from '../reducers/anecdoteReducer'
+import { setNotification, deleteNotification } from '../reducers/notificationReducer'
 
 // Handler function
 const NewAnecdote = (props) => {
@@ -12,6 +12,10 @@ const NewAnecdote = (props) => {
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
     dispatch(createAnecdote(content))
+
+    // dispatch to notificationReducer action creators
+    dispatch(setNotification(content))
+    setTimeout(() => { dispatch(deleteNotification('-')) }, 5000)
   }
 
   return (
@@ -25,7 +29,6 @@ const NewAnecdote = (props) => {
         </form>
   </div>
   )
- 
 }
 
 // Export the component for generating new anecdote with non-controlled form
