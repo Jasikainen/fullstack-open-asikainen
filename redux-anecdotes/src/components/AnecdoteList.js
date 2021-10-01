@@ -3,6 +3,29 @@ import { useDispatch, useSelector } from 'react-redux'
 import { voteAnecdoteOf } from '../reducers/anecdoteReducer'
 import { setNotification, deleteNotification } from '../reducers/notificationReducer'
 
+// Refactor single anecdote to it's own component outside AnecdoteList
+const Anecdote = ({anecdote}) => {
+  const dispatch = useDispatch()
+
+  const vote = (id, content) => {
+    dispatch(voteAnecdoteOf(id))
+    dispatch(setNotification(`You voted '${content}'`))
+    setTimeout(() => { dispatch(deleteNotification()) }, 5000)
+  }
+
+  return (
+    <div>
+      <div>
+        {anecdote.content}
+      </div>
+      <div>
+        has {anecdote.votes}
+        <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+      </div>
+    </div>
+  )
+}
+
 // List component
 const AnecdoteList = (props) => {
   // Get multiple reducer states from store
@@ -20,28 +43,11 @@ const AnecdoteList = (props) => {
       return filteredAnecdotes
     }
   })
-  const dispatch = useDispatch()
 
-  const vote = (id, content) => {
-    dispatch(voteAnecdoteOf(id))
-    dispatch(setNotification(`You voted '${content}'`))
-    setTimeout(() => { dispatch(deleteNotification()) }, 5000)
-  }
-
-  return (
-    <div>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
-          </div>
-        </div>
-      )}
-  </div>
+  return ( 
+    anecdotes.map(anecdote =>
+      <Anecdote key={anecdote.id} anecdote={anecdote }/>
+    ) 
   )
 }
 
