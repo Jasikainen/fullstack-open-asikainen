@@ -18,10 +18,14 @@ const notificationReducer = (state = null, action) => {
   }
 }
 
-export const setNotification = content => {
-  return {
-    type         : 'SET_NOTIFICATION',
-    notification : content
+export const setNotification = (content, displayForSeconds) => {
+  return async dispatch => {
+    dispatch({
+      type         : 'SET_NOTIFICATION',
+      notification : content
+    })
+    // Could be done with straight dispatch to reducer from here...
+    setTimeout(() => { dispatch(deleteNotification()) }, displayForSeconds*1000)
   }
 }
 

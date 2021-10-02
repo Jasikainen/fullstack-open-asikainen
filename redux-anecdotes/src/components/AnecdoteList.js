@@ -8,10 +8,9 @@ import { setNotification, deleteNotification } from '../reducers/notificationRed
 const Anecdote = ({anecdote}) => {
   const dispatch = useDispatch()
 
-  const vote = (id, content) => {
-    dispatch(voteAnecdoteOf(id))
-    dispatch(setNotification(`You voted '${content}'`))
-    setTimeout(() => { dispatch(deleteNotification()) }, 5000)
+  const voteHandler = (anecdote) => {
+    dispatch(voteAnecdoteOf(anecdote))
+    dispatch(setNotification(`You voted '${anecdote.content}'`, 5))
   }
 
   return (
@@ -21,7 +20,7 @@ const Anecdote = ({anecdote}) => {
       </div>
       <div>
         has {anecdote.votes}
-        <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
+        <button onClick={() => voteHandler(anecdote)}>vote</button>
       </div>
     </li>
   )
