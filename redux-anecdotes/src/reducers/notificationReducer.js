@@ -1,39 +1,48 @@
 
 
-const notificationReducer = (state = null, action) => {
+export const notificationReducer = (state = {content: null, formerTimeOutId: null}, action) => {
   switch (action.type) 
   {
-    case 'SET_NOTIFICATION':
+    case 'SET':
     {
-      console.log(`action.notification on set ${action.notification}`)
-      return action.notification
+      return action.data
     }
-      case 'DELETE_NOTIFICATION':
-      {
-        console.log(`action.notification on delete ${action.notification}`)
-        return action.notification
-      }
+    case 'DELETE':
+    {
+      return action.data
+    }
     default:
       return state
   }
 }
 
-export const setNotification = (content, displayForSeconds) => {
+export const setNotification = (content, dispTime, timeOutIdToClear) => {
   return async dispatch => {
+    const millis = dispTime * 1000;
+    // Used to clear previous call to setTimeOut function
+    let timeOutId = setTimeout(() => 
+        { dispatch(deleteNotification()) },
+        millis)
+    // Store current timeOutId to store    
     dispatch({
-      type         : 'SET_NOTIFICATION',
-      notification : content
+      type: 'SET',
+      data:
+      { 
+        content: content, 
+        formerTimeOutId: timeOutId 
+      }
     })
-    // Could be done with straight dispatch to reducer from here...
-    setTimeout(() => { dispatch(deleteNotification()) }, displayForSeconds*1000)
+
+    // Each call has to store their timeOutId to store but the previous
+    // time out will be cleared with the one passed to this action creator
+    clearTimeout(timeOutIdToClear)
   }
 }
 
 export const deleteNotification = () => {
   return {
-    type         : 'DELETE_NOTIFICATION',
-    notification : null
+    type: 'DELETE',
+    data: { content : null }
   }
 }
 
-export default notificationReducer

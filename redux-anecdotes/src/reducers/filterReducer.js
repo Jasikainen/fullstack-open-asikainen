@@ -1,5 +1,4 @@
-const filterReducer = (state = '', action) => {
-  console.log('action', action)
+export const filterReducer = (state = '', action) => {
   switch (action.type) 
   {
     case 'SET_FILTER':
@@ -28,5 +27,3 @@ export const resetFilter = () => {
     filter : ''
   }
 }
-
-export default filterReducer

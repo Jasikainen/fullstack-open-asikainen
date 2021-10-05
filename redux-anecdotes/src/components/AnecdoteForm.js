@@ -1,23 +1,20 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { setNotification } from '../reducers/notificationReducer'
 
 
-const NewAnecdote = (props) => {
-  const dispatch = useDispatch()
-  
+const AnecdoteForm = (props) => {
   // Defined as async because of backend call
   const addAnecdote = async (event) => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    dispatch(createAnecdote(content))
+    props.createAnecdote(content)
   
-    // dispatch to notificationReducer action creators
-    dispatch(setNotification(`New anecdote: '${content}'`, 5000))
+    props.setNotification(`New anecdote: '${content}'`, 5000, props.prevTimeOutId)
   }
-
+ 
   return (
     <div>
       <h2>create new</h2>
@@ -31,5 +28,15 @@ const NewAnecdote = (props) => {
   )
 }
 
-// Export the component for generating new anecdote with non-controlled form
-export default NewAnecdote
+const mapStateToProps = (state) => {
+  return { 
+    prevTimeOutId: state.prevTimeOutId
+  }
+}
+const mapDispatchToProps = {
+  createAnecdote,
+  setNotification
+}
+
+const ConnectedAnecdoteForm = connect(mapStateToProps, mapDispatchToProps)(AnecdoteForm)
+export default ConnectedAnecdoteForm
