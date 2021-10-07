@@ -1,33 +1,52 @@
 import React, { useState } from 'react'
 
 import {
-  BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useRouteMatch
 } from "react-router-dom"
 
-// Menu component is not needed as linking is handled by Router
-/*
+import './App.css';
+
 const Menu = () => {
   const padding = {
     paddingRight: 5
   }
   return (
     <div>
-      <a href='#' style={padding}>anecdotes</a>
-      <a href='#' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a>
+      <Link style={padding} to="/">home</Link>
+      <Link style={padding} to="/create">create new</Link>
+      <Link style={padding} to="/about">about</Link>
     </div>
   )
 }
-*/ 
+
+const Anecdote = ({ anecdote }) => {
+  const linkForInfo = anecdote.info
+  return (
+    <div className={'background-anecdote'}>
+      <h2>{anecdote.content} by {anecdote.author}</h2>
+      <div>
+        has {anecdote.votes} votes
+      </div>
+      <br />
+        for more info see <a href={linkForInfo}>{anecdote.info}</a>
+      <br /><br />
+
+    </div>
+  )
+}
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => 
+        <li key={anecdote.id} >
+          <Link to={`/anecdotes/${anecdote.id}`}>{anecdote.content}</Link>
+        </li>
+      )}
     </ul>
   </div>
 )
+
 
 const About = () => (
   <div>
@@ -43,19 +62,18 @@ const About = () => (
   </div>
 )
 
-const Footer = () => (
-  <div>
-    Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -websovelluskehitys</a>.
-
-    See <a href='https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
-  </div>
-)
-
+const Footer = () => {
+  return (
+    <div className={'footerStyle'}>
+      Anecdote app for <a href='https://courses.helsinki.fi/fi/tkt21009'>Full Stack -websovelluskehitys</a>.
+      See <a href='https://github.com/fullstack-hy/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
+    </div>
+  )
+}
 const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
-
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -91,8 +109,6 @@ const CreateNew = (props) => {
 }
 
 const App = () => {
-  const padding = { paddingRight: 5 }
-  
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -122,28 +138,26 @@ const App = () => {
 
   const vote = (id) => {
     const anecdote = anecdoteById(id)
-
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1
     }
-
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  return (
-    <Router>
-      <div>
-        <h1>Software anecdotes</h1>
-      </div>
+  const match = useRouteMatch('/anecdotes/:id')
+  const anecdote = match ? anecdoteById(match.params.id) : null
 
-      <div>
-        <Link style={padding} to="/">anecdotes</Link>
-        <Link style={padding} to="/create">create new</Link>
-        <Link style={padding} to="/about">about</Link>
-      </div>
+  return (
+    <div>
+      <div><h1>Software anecdotes</h1></div>
+      <Menu />
 
       <Switch>
+        <Route path="/anecdotes/:id">
+          <Anecdote anecdote={anecdote} />
+        </Route>
+
         <Route path="/create">
           <CreateNew addNew={addNew} />
         </Route>
@@ -160,7 +174,7 @@ const App = () => {
       <div>
         <Footer />
       </div>
-    </Router>
+    </div>
   )
 }
 
