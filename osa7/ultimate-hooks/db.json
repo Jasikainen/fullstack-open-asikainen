@@ -1,0 +1,39 @@
+{
+  "notes": [
+    {
+      "content": "custom-hooks are grat",
+      "id": 1
+    },
+    {
+      "content": "the best featrure ever <3",
+      "id": 2
+    }
+  ],
+  "persons": [
+    {
+      "name": "kaltsoon",
+      "number": "045-2323456",
+      "id": 2
+    },
+    {
+      "name": "dsa",
+      "number": "56234",
+      "id": 3
+    },
+    {
+      "name": "34534534",
+      "number": "56234",
+      "id": 4
+    },
+    {
+      "name": "1233455ter",
+      "number": "dfg345etr",
+      "id": 7
+    },
+    {
+      "name": "1342etrgdfc45etrygfdcbv678iutyhjg",
+      "number": "123",
+      "id": 10
+    }
+  ]
+}
