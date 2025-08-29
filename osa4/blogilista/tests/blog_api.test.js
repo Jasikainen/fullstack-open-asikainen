@@ -46,20 +46,17 @@ describe('blog_api_tests', () => {
     expect(response.type).toBe('application/json')
   })
 
-
   test('all blogs are returned', async () => {
     const response = await api.get('/api/blogs')
     expect(response.body.length).toBe(helper.initialBlogs.length)
   })
 
-
   test('blogs identifier is as parameter "id"', async () => {
     const response = await api.get('/api/blogs')
 
-    const identifiers = response.body.map(n => n.id)
+    const identifiers = response.body.map((n) => n.id)
     expect(identifiers).toBeDefined()
   })
-
 
   test('note with proper content and token is added', async () => {
     const newBlog = helper.oneBlog
@@ -89,7 +86,6 @@ describe('blog_api_tests', () => {
       .set('Content-Type', 'application/json')
       .send(newBlog)
       .expect(401)
-
   })
 
   test('blog post with undefined amount of likes should be 0', async () => {
@@ -119,10 +115,7 @@ describe('blog_api_tests', () => {
         likes: 666,
       }
       // No need for user auth token
-      await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(400)
+      await api.post('/api/blogs').send(newBlog).expect(400)
     })
 
     test('without URL', async () => {
@@ -132,10 +125,7 @@ describe('blog_api_tests', () => {
         likes: 666,
       }
       // No need for user auth token
-      await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(400)
+      await api.post('/api/blogs').send(newBlog).expect(400)
     })
 
     test('without URL and TITLE', async () => {
@@ -143,10 +133,7 @@ describe('blog_api_tests', () => {
         author: 'Unauthorized blogger',
         likes: 666,
       }
-      await api
-        .post('/api/blogs')
-        .send(newBlog)
-        .expect(400)
+      await api.post('/api/blogs').send(newBlog).expect(400)
     })
   })
 

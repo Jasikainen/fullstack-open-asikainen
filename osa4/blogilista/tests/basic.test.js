@@ -6,7 +6,8 @@ const blogs = [
     title: 'React patterns',
     author: 'Michael Chan',
     url: 'https://reactpatterns.com/',
-    likes: 7, __v: 0
+    likes: 7,
+    __v: 0,
   },
   {
     _id: '5a422aa71b54a676234d17f8',
@@ -14,21 +15,23 @@ const blogs = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    __v: 0
+    __v: 0,
   },
-  { _id: '5a422b3a1b54a676234d17f9',
+  {
+    _id: '5a422b3a1b54a676234d17f9',
     title: 'Canonical string reduction',
     author: 'Edsger W. Dijkstra',
     url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
     likes: 12,
-    __v: 0
+    __v: 0,
   },
-  { _id: '5a422b891b54a676234d17fa',
+  {
+    _id: '5a422b891b54a676234d17fa',
     title: 'First class tests',
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422ba71b54a676234d17fb',
@@ -36,7 +39,7 @@ const blogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html',
     likes: 0,
-    __v: 0
+    __v: 0,
   },
   {
     _id: '5a422bc61b54a676234d17fc',
@@ -44,8 +47,8 @@ const blogs = [
     author: 'Robert C. Martin',
     url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
     likes: 2,
-    __v: 0
-  }
+    __v: 0,
+  },
 ]
 const listWithOneBlog = [
   {
@@ -54,10 +57,9 @@ const listWithOneBlog = [
     author: 'Edsger W. Dijkstra',
     url: 'http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html',
     likes: 5,
-    __v: 0
-  }
+    __v: 0,
+  },
 ]
-
 
 describe('dummy', () => {
   test('returns one with empty list', () => {
@@ -70,7 +72,6 @@ describe('dummy', () => {
     const result = listHelper.dummy(blogs)
     expect(result).toBe(1)
   })
-
 })
 
 describe('total likes', () => {
@@ -90,25 +91,23 @@ describe('total likes', () => {
   })
 })
 
-
 describe('favorite blog', () => {
   test('with test input should be "Canonical string reduction"', () => {
     const favoriteBlog = {
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
-      likes: 12
+      likes: 12,
     }
     const result = listHelper.favoriteBlog(blogs)
     expect(result).toEqual(favoriteBlog)
   })
 })
 
-
 describe('most blogs', () => {
   test('(3) should be written by "Robert C. Martin"', () => {
     const authorRobert = {
       author: 'Robert C. Martin',
-      blogs: 3
+      blogs: 3,
     }
 
     const result = listHelper.mostBlogs(blogs)
@@ -123,19 +122,18 @@ describe('most blogs', () => {
   test('of one blog of author is equal to one', () => {
     const authorDijkstra = {
       author: 'Edsger W. Dijkstra',
-      blogs: 1
+      blogs: 1,
     }
     const result = listHelper.mostBlogs(listWithOneBlog)
     expect(result).toEqual(authorDijkstra)
   })
 })
 
-
 describe('most likes', () => {
   test('of all authors is achieved by Dijkstra', () => {
     const mostLikedAuthor = {
       author: 'Edsger W. Dijkstra',
-      likes: 17
+      likes: 17,
     }
     const result = listHelper.mostLikes(blogs)
     expect(result).toEqual(mostLikedAuthor)

@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-const LogoutButton = () => {
+const LogoutButton = ({ setBlogUser, notificationMessageHandler }) => {
   const logoutStyle = {
     shadowColor: 'black',
     shadowOpacity: 0.8,
@@ -18,8 +18,11 @@ const LogoutButton = () => {
     console.log('Logging out of the blog application')
     try {
       window.localStorage.removeItem('LoggedInBlogUser')
+      setBlogUser(null) // Clear the app state
+      notificationMessageHandler(`Logged out. Please come again!`)
     } catch(exception) {
       console.log('Logging out failed', exception)
+      notificationMessageHandler(`Logging out did not work for some reason!`, 'error')
     }
   }
 

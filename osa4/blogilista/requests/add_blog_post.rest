@@ -1,10 +1,10 @@
 POST http://localhost:3003/api/blogs/
 Content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjAyMmQyZmRjNTQ3MTg0YWY4NWFhN2M4IiwiaWF0IjoxNjEzNTY0MDkzfQ.T9Yo8j_qgIcHwPZGjw-xwQbj-1evp4XCZakbYXRUGFQ
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InRlc3RlciIsImlkIjoiNjhiMTgyMGYxMGJmMTRjMjJjOGJmZTQ3IiwiaWF0IjoxNzU2NDYzODgwfQ.Zq0tZPqbmA15SYh_OeE3a4keEpNbCIIm0vrFWRy80tw
 
 {
   "title": "TESTER BY TES",
   "author": "TESTER",
   "url": "https://TESTER-TESTER.com",
-  "likes": 1111111111
+  "likes": 666
 }

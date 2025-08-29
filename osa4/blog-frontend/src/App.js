@@ -1,6 +1,9 @@
 /* eslint-disable no-unused-vars */
 import React, { useState, useEffect, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+
 import './App.css'
+
 import Blog from './components/Blog'
 import LoginForm from './components/LoginForm'
 import LogoutButton from './components/LogoutButton'
@@ -8,17 +11,20 @@ import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
+import { setNotification } from './reducers/notificationReducer'
+
 import blogService from './services/blogs'
 import loginService from './services/login'
 
-
-
 const App = () => {
+  const dispatch = useDispatch()
+
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [blogUser, setBlogUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
+  //const [errorMessage, setErrorMessage] = useState(null) changed in assigment 7.10 to use notificationReducer
+  const notificationErrorMessage = useSelector(state => state.notification)
   const blogFormRef = useRef()
 
   const sortBlogsByLikes = (blogPosts) => {
@@ -42,21 +48,23 @@ const App = () => {
     }
   }, [])
 
-  // Set message to Notification component thats passed by
-  const notificationMessageHandler = (message, type='success') => {
-    setErrorMessage({ message, type })
-    setTimeout(() => {
-      setErrorMessage(null)
-    }, 5000)
+  // In 7.10 changed to use dispatch
+  const notificationMessageHandler = (message, type = 'success') => {
+    dispatch(setNotification(message, type, 5000))  // Automatically clears after 5s
   }
+
 
   // POST: Request back-end to add new blog
   const addBlog = (blogObject) => {
+    console.log('Blog object received in addBlog:', blogObject)
     blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
       .then(returneBlog => {
         setBlogs(blogs.concat(returneBlog))
+      })
+      .catch(error => {
+        notificationMessageHandler(`Error adding blog (status: ${error.response?.status || 'unknown'})`, 'error')
       })
   }
 
@@ -134,8 +142,9 @@ const App = () => {
   // Render the Logout-<button> component in App
   const displayLogout = () => (
     <div>
-      {blogUser.username} logged in {' '}
-      <LogoutButton />
+      {blogUser.username} ({blogUser.name}) logged in {' '}
+      <LogoutButton 
+      setBlogUser={setBlogUser} notificationMessageHandler={notificationMessageHandler}/>
     </div>
   )
 
@@ -143,8 +152,7 @@ const App = () => {
   // Rendering the App
   return (
     <div>
-      <Notification message={errorMessage} />
-
+      <Notification message={notificationErrorMessage} />
       {
         blogUser === null
           ?

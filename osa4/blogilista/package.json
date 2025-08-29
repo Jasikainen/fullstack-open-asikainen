@@ -8,7 +8,8 @@
     "dev": "nodemon index.js",
     "lint": "eslint .",
     "test": "jest --verbose",
-    "start:test": "cross-env NODE_ENV=test node index.js"
+    "start:test": "cross-env NODE_ENV=test node index.js",
+    "format": "prettier --write ."
   },
   "author": "Jani Asikainen",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "eslint": "^7.19.0",
     "jest": "^26.6.3",
     "nodemon": "^2.0.7",
+    "prettier": "3.5.1",
     "supertest": "^6.1.3"
   },
   "dependencies": {
@@ -28,8 +30,9 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.20",
     "mongo": "^0.1.0",
-    "mongoose": "^5.11.14",
-    "mongoose-unique-validator": "^2.0.3"
+    "mongoose": "^5.13.23",
+    "mongoose-unique-validator": "^2.0.3",
+    "react-redux": "^9.2.0"
   },
   "jest": {
     "testEnvironment": "node"

@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = '/api/blogs'
+const baseUrl = 'http://localhost:3003/api/blogs'
 
 let token = null
 const setUserToken = (newToken) => {
@@ -15,13 +15,14 @@ const create = async newObject => {
   const config = {
     headers: { Authorization: token },
   }
-
+  console.log('Creating a new blog with the following data:', newObject)
   const response = await axios.post(baseUrl, newObject, config)
   return response.data
 }
 
 const update = async (newObject, id) => {
   const requestUrl = `${baseUrl}/${id}`
+  console.log('Updated existing object:', newObject)
   const response = await axios.put(requestUrl, newObject)
 
   return response.data
@@ -32,7 +33,7 @@ const remove = async (id) => {
     headers: { Authorization: token },
   }
   const requestUrl = `${baseUrl}/${id}`
-
+  
   const response = await axios.delete(requestUrl, config)
   return response.data
 }

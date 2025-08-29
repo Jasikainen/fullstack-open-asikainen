@@ -9,7 +9,6 @@ beforeEach(async () => {
   await User.deleteMany({})
   const user = new User({ username: 'Jasim', password: 'sekret' })
   await user.save()
-
 })
 
 describe('Initialise database with one user "Jasim"', () => {
@@ -31,7 +30,7 @@ describe('Initialise database with one user "Jasim"', () => {
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd.length).toBe(usersAtStart.length + 1)
 
-    const usernames = usersAtEnd.map(u => u.username)
+    const usernames = usersAtEnd.map((u) => u.username)
     expect(usernames).toContain(newUser.username)
   })
 
@@ -71,7 +70,9 @@ describe('Initialise database with one user "Jasim"', () => {
       .expect(400)
       .expect('Content-Type', /application\/json/)
 
-    expect(result.body.error).toContain('Password must be longer than 3 characters')
+    expect(result.body.error).toContain(
+      'Password must be longer than 3 characters',
+    )
 
     const usersAtEnd = await helper.usersInDb()
     expect(usersAtEnd.length).toBe(usersAtStart.length)

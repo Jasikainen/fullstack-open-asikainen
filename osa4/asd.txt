@@ -1,0 +1,5 @@
+1. Tsekkaa MongoDB onko serveri päällä. Jos on avaa connect ja hae osoite
+2. aseta osoite backend .env salasanan ja käyttiksen kera
+3. front end npm start (local host 3000 suoraan)
+4. back end npm start (local host 30003 suoraan) avaa yhteyden mongoon
+käyttäjän voi luoda noista backendin requesteista add_user.rest kautta jonka jälkeen onnistuu kirjautuminen

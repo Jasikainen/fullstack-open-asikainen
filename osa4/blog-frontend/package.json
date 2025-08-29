@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@reduxjs/toolkit": "^2.5.1",
     "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.2",
     "prop-types": "^15.7.2",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "react-scripts": "3.3.1",
+    "redux": "^5.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -17,7 +20,8 @@
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "cypress:open": "cypress open",
-    "test:e2e": "cypress run"
+    "test:e2e": "cypress run",
+    "testJest": "jest"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -39,7 +43,9 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "cypress": "^6.5.0",
+    "deep-freeze": "^0.0.1",
     "eslint-plugin-cypress": "^2.11.2",
-    "eslint-plugin-jest": "^24.1.5"
+    "eslint-plugin-jest": "^24.1.5",
+    "prettier": "3.5.1"
   }
 }

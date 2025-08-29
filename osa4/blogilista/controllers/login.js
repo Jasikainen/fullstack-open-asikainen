@@ -8,13 +8,14 @@ loginRouter.post('/', async (request, response) => {
 
   const userFound = await User.findOne({ username: body.username })
   // Check whether the user exists in database
-  const isPasswordValid = userFound === null
-    ? false
-    : await bcrypt.compare(body.password, userFound.passwordHash)
+  const isPasswordValid =
+    userFound === null
+      ? false
+      : await bcrypt.compare(body.password, userFound.passwordHash)
 
   if (!(userFound && isPasswordValid)) {
     return response.status(401).json({
-      error: 'invalid username or password. Please try again.'
+      error: 'invalid username or password. Please try again.',
     })
   }
 

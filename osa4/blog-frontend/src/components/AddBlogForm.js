@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { setTitle, setAuthor, setUrl, resetForm } from '../reducers/blogFormReducer'
+import { useDispatch, useSelector } from 'react-redux'
 
 const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
   const inputStyle = {
@@ -17,24 +19,17 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
     backgroundColor: 'rgba(240, 180, 150, .5)'
   }
 
-  const [blogTitle, setBlogTitle] = useState('')
-  const [blogAuthor, setBlogAuthor] = useState('')
-  const [blogUrl, setBlogUrl] = useState('')
+  const dispatch = useDispatch()
+  // Values defined in reducer
+  const { title, author, url } = useSelector((state) => state.blogform)
 
   const createBlogHandler = async (event) => {
     event.preventDefault()
-
     try {
-      addBlog({
-        title: blogTitle,
-        author: blogAuthor,
-        url: blogUrl,
-      })
-      notificationMessageHandler(`a new blog '${blogTitle}' by ${blogAuthor} added`)
-
-      setBlogTitle('')
-      setBlogAuthor('')
-      setBlogUrl('')
+      console.log('Blog data before submission:', { title, author, url }) // Debugging
+      addBlog({ title, author, url })
+      notificationMessageHandler(`A new blog '${title}' by ${author} added`)
+      dispatch(resetForm())
     } catch (exception) {
       console.log(exception)
       notificationMessageHandler('Could not add blog.', 'error')
@@ -48,9 +43,9 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
         <input
           id='blogTitle'
           type="text"
-          value={blogTitle}
+          value={title}
           name="Title"
-          onChange={({ target }) => setBlogTitle(target.value)}
+          onChange={({ target }) => dispatch(setTitle(target.value))}
         />
       </div>
 
@@ -59,9 +54,9 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
         <input
           id='blogAuthor'
           type="text"
-          value={blogAuthor}
+          value={author}
           name="Author"
-          onChange={({ target }) => setBlogAuthor(target.value)}
+          onChange={({ target }) => dispatch(setAuthor(target.value))}
         />
       </div>
 
@@ -70,9 +65,9 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
         <input
           id='blogUrl'
           type="text"
-          value={blogUrl}
+          value={url}
           name="url"
-          onChange={({ target }) => setBlogUrl(target.value)}
+          onChange={({ target }) => dispatch(setUrl(target.value))}
         />
       </div>
 
