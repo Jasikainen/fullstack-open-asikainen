@@ -1,5 +1,5 @@
 import axios from 'axios'
-const baseUrl = 'http://localhost:3003/api/login'
+const baseUrl = '/api/login'
 
 // service used to request login into back-end
 const login = async (credentials) => {

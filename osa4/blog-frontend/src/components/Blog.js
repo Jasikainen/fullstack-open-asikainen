@@ -35,23 +35,25 @@ const Blog = ({ blog, addLike, removeBlog }) => {
     color: color ? 'green' : '',
     border: color ? 'solid' : null,
   }
+
+  // OnClick function which increases the likes of a blog
   const increaseLikes = () => {
-    try {
-      const blogId = blog.id
-      const blogObject = {
-        user: blog.user.id,
-        likes: blog.likes + 1,
-        title: blog.title,
-        author: blog.author,
-        url: blog.url,
-      }
-      addLike(blogObject, blogId)
-      setColor(true)
-      setTimeout(() => {setColor(false)}, 100)
-    } catch (exception) {
-      console.log('exception was in increaseLikes', exception)
+  try {
+    const blogId = blog.id
+    const blogObject = {
+      user: blog.user.id,
+      likes: blog.likes + 1,
+      title: blog.title,
+      author: blog.author,
+      url: blog.url,
     }
+    addLike(blogObject, blogId)
+    setColor(true)
+    setTimeout(() => { setColor(false) }, 100)
+  } catch (exception) {
+    console.log('exception was in increaseLikes', exception)
   }
+}
 
   const deleteBlog = () => {
     try {

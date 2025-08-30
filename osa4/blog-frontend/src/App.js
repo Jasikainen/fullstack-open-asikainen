@@ -11,7 +11,10 @@ import AddBlogForm from './components/AddBlogForm'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 
-import { setNotification } from './reducers/notificationReducer'
+import { setNotification as setNotificationAction } from './reducers/notificationReducer'
+import { initializeBlogs as initializeBlogsAction,
+  addBlog as addBlogAction,
+  likeBlog as likeBlogAction } from './reducers/blogReducer'
 
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -19,7 +22,8 @@ import loginService from './services/login'
 const App = () => {
   const dispatch = useDispatch()
 
-  const [blogs, setBlogs] = useState([])
+  //const [blogs, setBlogs] = useState([]) changed in assignment 7.11 to use blogReducer
+  const blogs = useSelector(state => state.blogs)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [blogUser, setBlogUser] = useState(null)
@@ -32,11 +36,13 @@ const App = () => {
   }
 
   // Get all blogs from database trough back-end
+  // Updated to dispatch the initializeBlogs redux action creator in assignment 7.11
   useEffect(() => {
     blogService.getAll().then(blogs => {
-      setBlogs( sortBlogsByLikes(blogs) )
+      const sortedBlogs = sortBlogsByLikes(blogs)
+      dispatch(initializeBlogsAction(sortedBlogs))
     })
-  }, [])
+  }, [dispatch])
 
   // Used to check from local cache if user logged in session
   useEffect(() => {
@@ -50,7 +56,7 @@ const App = () => {
 
   // In 7.10 changed to use dispatch
   const notificationMessageHandler = (message, type = 'success') => {
-    dispatch(setNotification(message, type, 5000))  // Automatically clears after 5s
+    dispatch(setNotificationAction(message, type, 5000))  // Automatically clears after 5s
   }
 
 
@@ -60,8 +66,8 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
-      .then(returneBlog => {
-        setBlogs(blogs.concat(returneBlog))
+      .then(returnedBlog => {
+        dispatch(addBlogAction(returnedBlog))
       })
       .catch(error => {
         notificationMessageHandler(`Error adding blog (status: ${error.response?.status || 'unknown'})`, 'error')
@@ -72,17 +78,23 @@ const App = () => {
   const addLike = (blogObject, id) => {
     blogService
       .update(blogObject, id)
-      .then(returneBlog => {
+      .then(returnedBlog => {
+        console.log('Blog liked:', returnedBlog)
+        dispatch(likeBlogAction(returnedBlog))
         // Update blogs after the request is fulfilled
         blogService
           .getAll()
-          .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
+          .then(blogs => {
+            console.log('All blogs to dispatch:', blogs)
+            const sortedBlogs = sortBlogsByLikes(blogs)
+            dispatch(initializeBlogsAction(sortedBlogs))
+          })
       })
   }
 
   // DELETE: Request to back-end to delete blogpost
   const removeBlog = (blogObject, id) => {
-    if (window.confirm(`Remove '${blogObject.title}' by '${blogObject.author}'?`)){
+    if (window.confirm(`Remove '${blogObject.title}' by '${blogObject.author}'?`)) {
       blogService
         .remove(id)
         .then(returnedBlog => {
@@ -90,7 +102,10 @@ const App = () => {
           // Update blogs after the request is fulfilled
           blogService
             .getAll()
-            .then(blogs => setBlogs( sortBlogsByLikes(blogs) ))
+            .then(blogs => {
+              const sortedBlogs = sortBlogsByLikes(blogs)
+              dispatch(initializeBlogsAction(sortedBlogs))
+            })
         })
         .catch(error => {
           if (error.status === 401) {
@@ -131,11 +146,19 @@ const App = () => {
   // Render the displayBlogs component in App
   // Blog posts are only shown to the currently logged in user
   const displayBlogs = () => (
-    blogs.map(blog =>
-      blog.user &&
-      blogUser.username &&
-      blog.user.username.toString() === blogUser.username.toString() &&
-      <Blog key={blog.id} blog={blog} blogUser={blogUser} addLike={addLike} removeBlog={removeBlog}/>
+    blogs
+    .filter(blog =>
+      blog.user && blog.user.username && blogUser && blogUser.username &&
+      blog.user.username.toString() === blogUser.username.toString()
+    )
+    .map(blog =>
+      <Blog
+        key={blog.id}
+        blog={blog}
+        blogUser={blogUser}
+        addLike={addLike}
+        removeBlog={removeBlog}
+      />
     )
   )
 

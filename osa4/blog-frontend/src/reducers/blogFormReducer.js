@@ -20,6 +20,7 @@ const blogFormReducer = (state = initialState, action) => {
   }
 }
 
+// Action creators
 export const setTitle = (title) => ({
   type: 'SET_TITLE',
   payload: title

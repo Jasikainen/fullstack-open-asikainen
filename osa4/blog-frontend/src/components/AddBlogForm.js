@@ -1,5 +1,9 @@
 import React from 'react'
-import { setTitle, setAuthor, setUrl, resetForm } from '../reducers/blogFormReducer'
+import { setTitle as setTitleAction,
+  setAuthor as setAuthorAction,
+  setUrl as setUrlAction,
+  resetForm as resetFormAction } from '../reducers/blogFormReducer'
+
 import { useDispatch, useSelector } from 'react-redux'
 
 const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
@@ -29,7 +33,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
       console.log('Blog data before submission:', { title, author, url }) // Debugging
       addBlog({ title, author, url })
       notificationMessageHandler(`A new blog '${title}' by ${author} added`)
-      dispatch(resetForm())
+      dispatch(resetFormAction())
     } catch (exception) {
       console.log(exception)
       notificationMessageHandler('Could not add blog.', 'error')
@@ -45,7 +49,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
           type="text"
           value={title}
           name="Title"
-          onChange={({ target }) => dispatch(setTitle(target.value))}
+          onChange={({ target }) => dispatch(setTitleAction(target.value))}
         />
       </div>
 
@@ -56,7 +60,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
           type="text"
           value={author}
           name="Author"
-          onChange={({ target }) => dispatch(setAuthor(target.value))}
+          onChange={({ target }) => dispatch(setAuthorAction(target.value))}
         />
       </div>
 
@@ -67,7 +71,7 @@ const AddBlogForm = ({ addBlog , notificationMessageHandler }) => {
           type="text"
           value={url}
           name="url"
-          onChange={({ target }) => dispatch(setUrl(target.value))}
+          onChange={({ target }) => dispatch(setUrlAction(target.value))}
         />
       </div>
 
