@@ -1,12 +1,15 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { setBlogUser as setBlogUserAction } from '../reducers/blogUserReducer'
 
 
-const loginForm = ({
+const LoginForm = ({
   setUsername,
   setPassword,
-  username, password,
-  loginService, blogService,
-  setBlogUser,
+  username,
+  password,
+  loginService,
+  blogService,
   notificationMessageHandler
 }) => {
   const loginFormStyle = {
@@ -20,6 +23,7 @@ const loginForm = ({
     marginBottom: 5,
     width: 200,
   }
+  const dispatch = useDispatch()
 
   const loginHandler = async (event) => {
     event.preventDefault()
@@ -28,13 +32,14 @@ const loginForm = ({
       const userReturned = await loginService.login({
         username, password
       })
+      console.log('User returned from login:', userReturned)
       // Set logged in user to browsers local cache
       window.localStorage.setItem(
         'LoggedInBlogUser', JSON.stringify(userReturned)
       )
 
       blogService.setUserToken(userReturned.token)
-      setBlogUser(userReturned)
+      dispatch(setBlogUserAction(userReturned))
       setUsername('')
       setPassword('')
 
@@ -75,4 +80,4 @@ const loginForm = ({
   )
 }
 
-export default loginForm
+export default LoginForm
